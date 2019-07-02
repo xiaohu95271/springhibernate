@@ -9,4 +9,6 @@ package com.xiaohu.demo.controller.com.xiaohu.demo.service;
  * @since 1.0.0
  */
 public interface IHelloService {
+
+
 }
