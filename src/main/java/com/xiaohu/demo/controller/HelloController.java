@@ -1,6 +1,7 @@
 package com.xiaohu.demo.controller;
 
-import com.xiaohu.demo.controller.com.xiaohu.demo.service.IHelloService;
+import com.xiaohu.demo.common.MD5Utils;
+import com.xiaohu.demo.service.IHelloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +24,13 @@ public class HelloController {
     @ResponseBody
     @RequestMapping("/hello")
     public String hello(){
+        System.out.println(MD5Utils.getStringMd5("asdasdasd"));
         return "hello world";
     }
     @RequestMapping("/index")
     public String index(){
         return "index";
     }
+
+
 }
