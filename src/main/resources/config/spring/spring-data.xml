@@ -58,38 +58,59 @@
     </bean>
 
 
-    <bean id="sessionFactoryBean" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <!-- hibernateProperties属性：配置与hibernate相关内容，如显示sql语句，开启正向工程 -->
-        <property name="hibernateProperties">
-            <value>
-                <!-- hibernate.dialect=org.hibernate.dialect.HSQLDialect -->
-                <!-- 显示当前执行的sql -->
-                hibernate.show_sql=true
-                <!-- 开启正向工程 -->
-                hibernate.hbm2ddl.auto=update
-            </value>
-        </property>
         <!-- 扫描实体所在的包 -->
         <property name="packagesToScan">
             <list>
                 <value>com.xiaohu.demo.domain</value>
             </list>
         </property>
-
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.archive.autodetection">${hibernate.archive.autodetection}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+            </props>
+        </property>
     </bean>
     <!-- 配置hibernate的事务管理器 -->
     <bean id="transactionManager"
           class="org.springframework.orm.hibernate5.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactoryBean"/>
+        <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
-
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
     <!-- 配置开启注解事务处理 -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
     <!-- 配置springIOC的注解扫描 -->
-    <context:component-scan base-package="com.xiaohu.demo"></context:component-scan>
+    <context:component-scan base-package="com.xiaohu.demo,com.xiaohu.demo.service.base.impl"></context:component-scan>
     <!-- 配置HibernateTemplate对象 -->
     <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
-        <property name="sessionFactory" ref="sessionFactoryBean" />
+        <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    <tx:advice id="transactionAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="add*" propagation="REQUIRED" />
+            <tx:method name="save*" propagation="REQUIRED" />
+            <tx:method name="insert*" propagation="REQUIRED" />
+            <tx:method name="del*" propagation="REQUIRED" />
+            <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="modify*" propagation="REQUIRED" />
+            <tx:method name="edit*" propagation="REQUIRED" />
+            <tx:method name="*" read-only="true" />
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <aop:pointcut id="transactionPointcut"
+                      expression="execution(* com.xiaohu.demo..service..impl.*.*(..))"/>
+        <aop:advisor pointcut-ref="transactionPointcut"
+                     advice-ref="transactionAdvice" />
+    </aop:config>
+    <!--事务配置结束 -->
 </beans>

@@ -1,11 +1,16 @@
 package com.xiaohu.demo.controller;
 
 import com.xiaohu.demo.common.MD5Utils;
+import com.xiaohu.demo.domain.User;
 import com.xiaohu.demo.service.IHelloService;
+import com.xiaohu.demo.service.user.IuserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -20,12 +25,20 @@ public class HelloController {
 
     @Autowired
     private IHelloService helloService;
+    @Autowired
+    private IuserService userService;
 
     @ResponseBody
     @RequestMapping("/hello")
-    public String hello(){
+    public User hello(){
+        User user = new User();
+        user.setCompanyId("1");
+        String format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        user.setCreateDate(format);
+        user.setLastLoginTime(format);
+        userService.save(user);
         System.out.println(MD5Utils.getStringMd5("asdasdasd"));
-        return "hello world";
+        return user;
     }
     @RequestMapping("/index")
     public String index(){

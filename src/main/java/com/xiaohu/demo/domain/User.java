@@ -6,6 +6,7 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * 用户信息表
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "common_user")
 @Data
-public class User  {
+public class User  implements Serializable {
 
 	private static final long serialVersionUID = -926874738132420619L;
 

@@ -1,6 +1,9 @@
 package com.xiaohu.demo.service;
 
+import com.xiaohu.demo.domain.User;
+
 import java.io.File;
+import java.io.Serializable;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -19,5 +22,12 @@ public interface IHelloService {
      * @return 文件的md5
      */
     String getMd5ByFile(File file);
+
+    /**
+     * 保存user
+     * @param user user对象
+     * @return 文件的md5
+     */
+    Serializable save(User user);
 
 }
