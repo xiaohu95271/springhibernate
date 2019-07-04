@@ -23,6 +23,7 @@
         <property name="prefix" value="/WEB-INF/jsp/"></property>
         <property name="suffix" value=".jsp"></property>
     </bean>
+    <!--spring-mvc 加入 jackson，解析json字符串-->
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
