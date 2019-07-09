@@ -4,9 +4,11 @@ import com.xiaohu.demo.common.DateUtil;
 import com.xiaohu.demo.common.StringUtil;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 
 /**
  * 用户信息表
@@ -68,7 +70,7 @@ public class User  implements Serializable {
 	 * 所属公司
 	 */
 	private String companyId;
-	
+
 //	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 //	@JoinTable(name = "common_user_role", joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "role_id", referencedColumnName = "id") })
 //	private Set<Role> roles = new HashSet<Role>();  //用户角色

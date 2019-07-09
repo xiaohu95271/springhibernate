@@ -1,74 +1,62 @@
 package com.xiaohu.demo.common.config;
 
-import org.springframework.context.annotation.Bean;
+import com.xiaohu.demo.service.user.impl.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.*;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-
-/**
- * Security 配置类
- * @author hu
- */
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
 
-    @Bean
-   public AuthenticationSuccessHandler successHandler(){
-      return new CustomSuccessHandler();
-   }
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(new PasswordEncoder() {
+            @Override
+            public String encode(CharSequence charSequence) {
+                return charSequence.toString();
+            }
 
-   /**
-    * 添加密码加密方法，由于Spring Security5必须要对密码进行编码，而Spring Security4不需要
-    * @return
-    */
-   @Bean
-   public PasswordEncoder passwordEncoder(){
-      DelegatingPasswordEncoder delegatingPasswordEncoder=(DelegatingPasswordEncoder) PasswordEncoderFactories.createDelegatingPasswordEncoder();
-      delegatingPasswordEncoder.setDefaultPasswordEncoderForMatches(NoOpPasswordEncoder.getInstance());
-      return delegatingPasswordEncoder;
-   }
-   //第二种方式
-   /*@Bean
-   public static NoOpPasswordEncoder passwordEncoder() {
-      return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
-   }*/
+            @Override
+            public boolean matches(CharSequence charSequence, String s) {
+                return s.equals(charSequence.toString());
+            }
+        });
+    }
 
-   /**
-    * 将用户的用户名、密码和角色写入内存。
-    * @param auth
-    * @throws Exception
-    */
-   @Override
-   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-      auth.inMemoryAuthentication().passwordEncoder(passwordEncoder()).withUser("xiaoyao").password("abc123").roles("USER");
-      auth.inMemoryAuthentication().passwordEncoder(passwordEncoder()).withUser("admin").password("root123").roles("ADMIN");
-      auth.inMemoryAuthentication().passwordEncoder(passwordEncoder()).withUser("dba").password("root123").roles("ADMIN","DBA");
-   }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                // 如果有允许匿名的url，填在下面
+//                .antMatchers().permitAll()
+                .anyRequest().authenticated()
+                .and()
+                // 设置登陆页
+                .formLogin().loginPage("/login")
+                // 设置登陆成功页
+                .defaultSuccessUrl("/").permitAll()
+                // 自定义登陆用户名和密码参数，默认为username和password
+//                .usernameParameter("username")
+//                .passwordParameter("password")
+                .and()
+                .logout().permitAll();
 
+        // 关闭CSRF跨域
+        http.csrf().disable();
+    }
 
-
-   @Override
-   protected void configure(HttpSecurity http) throws Exception {
-      //设置认证请求
-      http.authorizeRequests()
-//              任何用户都可以访问
-        .antMatchers("/", "/home").permitAll()
-//              访问以admin开头的请求，需要拥有admin的权限
-        .antMatchers("/admin/**").access("hasRole('ADMIN')")
-//              访问以dba开头的请求，需要拥有admin/dba的权限
-        .antMatchers("/db/**").access("hasRole('ADMIN') and hasRole('DBA')")
-//              设置自定义登陆页面,在登陆成功之后，根据用户
-        .and().formLogin().loginPage("/login").successHandler(successHandler())
-//              设置自定义的登陆页面，并设置传过来的用户名和密码的参数
-              .usernameParameter("username").passwordParameter("password")
-//              在没有权限时，可以跳转到accessdenied.jsp
-        .and().exceptionHandling().accessDeniedPage("/Access_Denied");
-   }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        // 设置拦截忽略文件夹，可以对静态资源放行
+        web.ignoring().antMatchers("/css/**", "/js/**");
+    }
 }
