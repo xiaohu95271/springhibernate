@@ -6,6 +6,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -258,16 +259,16 @@ public class BaseRepositoryImpl<M extends Serializable, PK extends Serializable>
 		try {
 			
 			printLog(sql, values);
-			
-			SQLQuery query = session.createSQLQuery(sql);
-			
+
+			NativeQuery sqlQuery = session.createSQLQuery(sql);
+
 			if (values != null) {
 				for (int i = 0; i < values.length; i++) {
-					query.setParameter(i, values[i]);
+					sqlQuery.setParameter(i, values[i]);
 				}
 			}
 			
-			returnValue = query.executeUpdate();
+			returnValue = sqlQuery.executeUpdate();
 			tx.commit();
 			
 		} catch (Exception e) {
