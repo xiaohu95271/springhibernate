@@ -1,5 +1,6 @@
 package com.xiaohu.demo.domain.repository.base;
 
+import com.xiaohu.demo.common.page.PageBean;
 import org.hibernate.query.Query;
 
 import java.io.Serializable;
@@ -145,8 +146,8 @@ public interface IBaseRepository<M extends Serializable, PK extends Serializable
 	public Object findListIntegerBySql(String sql, Object[] values);
 	
 
-//	public PageBean<M> queryPage(PageBean<M> bean, String hql, String orderBy,
-//			Object[] values);
+	public PageBean<M> queryPage(PageBean<M> bean, String hql, String orderBy,
+								 Object[] values);
 //
 //	public PageBean<M> queryPage(PageBean<M> bean, String hql, String countHql,
 //			String orderBy, Object[] values);

@@ -18,6 +18,10 @@
 
     <!--controller扫描-->
     <context:component-scan base-package="com.xiaohu.demo.controller"></context:component-scan>
+    <!-- 静态资源配置 -->
+    <mvc:resources location="/resource/" mapping="/resources/**" />
+    <mvc:resources location="/" mapping="/favicon.ico" />
+    <mvc:default-servlet-handler/>
     <!--jsp视图解析-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/"></property>

@@ -1,10 +1,10 @@
-package com.xiaohu.demo.domain;
+package com.xiaohu.demo.domain.user;
 
 import com.xiaohu.demo.common.DateUtil;
 import com.xiaohu.demo.common.StringUtil;
+import com.xiaohu.demo.domain.BaseVO;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,21 +18,8 @@ import java.util.Collection;
 @Entity
 @Table(name = "common_user")
 @Data
-public class User  implements Serializable {
+public class User extends BaseVO implements Serializable {
 
-	private static final long serialVersionUID = -926874738132420619L;
-
-	@Id
-	@GeneratedValue(generator="system-uuid")
-	@GenericGenerator(name="system-uuid", strategy = "uuid.hex")
-	@Column(name = "id", unique = true, nullable = true)
-	private String id;
-	@Column(name="create_date")
-	private String createDate = DateUtil.getDate(DateUtil.YYYY_MM_DD_HH_MM_SS);
-	@Column(name="update_date")
-	private String updateDate = DateUtil.getDate(DateUtil.YYYY_MM_DD_HH_MM_SS);
-	@Column(name="status")
-	private String status;
 	/**
 	 *  用户帐号
 	 */

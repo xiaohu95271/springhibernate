@@ -1,9 +1,8 @@
 package com.xiaohu.demo.controller;
 
 import com.xiaohu.demo.common.MD5Utils;
-import com.xiaohu.demo.domain.User;
-import com.xiaohu.demo.service.IHelloService;
-import com.xiaohu.demo.service.user.IuserService;
+import com.xiaohu.demo.domain.user.User;
+import com.xiaohu.demo.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,9 +23,7 @@ import java.util.Date;
 public class HelloController {
 
     @Autowired
-    private IHelloService helloService;
-    @Autowired
-    private IuserService userService;
+    private IUserService userService;
 
     @ResponseBody
     @RequestMapping("/hello")

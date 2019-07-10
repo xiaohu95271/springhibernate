@@ -1,5 +1,6 @@
 package com.xiaohu.demo.domain.repository.base.impl;
 
+import com.xiaohu.demo.common.page.PageBean;
 import com.xiaohu.demo.domain.repository.base.IBaseRepository;
 import com.xiaohu.demo.domain.repository.common.Judge;
 import org.hibernate.SQLQuery;
@@ -375,10 +376,25 @@ public class BaseRepositoryImpl<M extends Serializable, PK extends Serializable>
 		printLog(sql, values);
 		return  this.jdbcTemplate.queryForList(sql, values, Object.class);
 	}
-	
-	
-	
-	
+
+	@Override
+	public PageBean<M> queryPage(PageBean<M> bean, String hql, String orderBy, Object[] values) {
+		Long count = count(hql, values);
+		bean.setAllCount(count);
+
+		if (!Judge.isEmpty(orderBy)) {
+			hql += orderBy;
+		}
+		org.hibernate.Query query = this.getGenericSession().createQuery(hql);
+		wrapperQuery((Query) query, values);
+		query.setFirstResult((bean.getPage() - 1) * bean.getRows());
+		query.setMaxResults(bean.getRows());
+
+		bean.setResult(query.list());
+		return bean;
+	}
+
+
 	/*****************************************************************
 	 * 输出日志
 	 * @param sql
