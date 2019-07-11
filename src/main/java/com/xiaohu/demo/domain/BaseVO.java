@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -19,7 +20,7 @@ import javax.persistence.MappedSuperclass;
  */
 @Data
 @MappedSuperclass
-public class BaseVO {
+public class BaseVO implements Serializable {
     private static final long serialVersionUID = -926874738132420619L;
 
     @Id

@@ -6,113 +6,497 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>首页</title>
+    <title>layuiAdmin std - 通用后台管理模板系统（iframe标准版）</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<%--    <link rel="stylesheet" href="layui/css/layui.css" media="all">--%>
     <%@include file="/WEB-INF/jsp/common/import.jsp" %>
-    <style>
-        /** layuiAdmin.std-v1.2.1 LPPL License By http://www.layui.com/admin/ */
-        /*html #layuicss-layuiAdmin{display:none;position:absolute;width:1989px}::-webkit-input-placeholder{color:#ccc}html{background-color:#f2f2f2;color:#666}.layadmin-tabsbody-item,[template]{display:none}[lay-href],[lay-tips],[layadmin-event]{cursor:pointer}.layui-layout-admin .layui-header{position:fixed;top:0;left:0;width:100%;height:50px}.layui-layout-admin .layui-header .layui-nav .layui-nav-child a{color:#333}.layui-layout-admin .layui-side{width:220px;top:0;z-index:1001}.layui-layout-admin .layui-header .layui-nav .layui-nav-item,.layui-layout-admin .layui-logo{height:50px;line-height:50px}.layui-layout-admin .layui-logo{position:fixed;left:0;top:0;z-index:1002;width:220px;height:49px;padding:0 15px;box-sizing:border-box;overflow:hidden;font-weight:300;background-repeat:no-repeat;background-position:center center}.layadmin-pagetabs,.layui-layout-admin .layui-body,.layui-layout-admin .layui-footer,.layui-layout-admin .layui-layout-left{left:220px}.layadmin-pagetabs{position:fixed;top:50px;right:0;z-index:999}.layadmin-pagetabs .layui-breadcrumb{padding:0 15px}.layui-layout-admin .layui-body{position:fixed;top:90px;bottom:0}.layui-layout-admin .layui-body .layadmin-tabsbody-item{position:absolute;top:0;bottom:0;left:0;right:0;overflow:hidden}.layui-layout-admin .layui-header .layui-nav-img{width:26px;height:26px}.layui-layout-admin .layui-header .layui-nav-child{top:55px}.layui-layout-admin .layui-header .layui-layout-right .layui-nav-child{left:auto;right:0}.layui-layout-admin .layui-header .layui-nav .layui-nav-child dd.layui-this,.layui-layout-admin .layui-header .layui-nav .layui-nav-child dd.layui-this a{background:0 0}.layadmin-pagetabs,.layui-layout-admin .layui-body,.layui-layout-admin .layui-footer,.layui-layout-admin .layui-header .layui-layout-right,.layui-layout-admin .layui-header .layui-nav .layui-nav-item,.layui-layout-admin .layui-layout-left,.layui-layout-admin .layui-logo,.layui-layout-admin .layui-side{transition:all .3s;-webkit-transition:all .3s}.layui-icon-login-qq{color:#3492ED}.layui-icon-login-wechat{color:#4DAF29}.layui-icon-login-weibo{color:#CF1900}.layui-form[wid100] .layui-form-label{width:100px}.layui-form[wid100] .layui-input-block{margin-left:130px}@media screen and (max-width:450px){.layui-form[wid100] .layui-form-item .layui-input-inline{margin-left:132px}.layui-form[wid100] .layui-form-item .layui-input-inline+.layui-form-mid{margin-left:130px}}.layui-form-item .layui-input-company{width:auto;padding-right:10px;line-height:38px}.layui-bg-white{background-color:#fff}.layadmin-loading{position:absolute;left:50%;top:50%;margin:-16px -15px;font-size:30px;color:#c2c2c2}.layadmin-fixed{position:fixed;left:0;top:0;z-index:999}.layadmin-link{color:#029789!important}.layadmin-link:hover{opacity:.8}.layui-layer-admin .layui-layer-title{height:50px;line-height:50px;border:0;background-color:#20222A;color:#fff}.layui-layer-admin i[close]{position:absolute;padding:5px;right:10px;top:12px;color:#fff;cursor:pointer}.layui-layer-admin .layui-layer-content{padding:20px;line-height:22px}.layui-layer-admin .layui-layer-content cite{font-style:normal;color:#FF5722}.layui-layer-adminRight{top:50px!important;bottom:0;box-shadow:1px 1px 10px rgba(0,0,0,.1);border-radius:0;overflow:auto}.layadmin-note .layui-layer-content{padding:0}.layadmin-note textarea{display:block;width:300px;height:132px;min-width:300px;min-height:132px;line-height:20px;padding:10px 20px;border:none;box-sizing:border-box;color:#666;word-wrap:break-word}.layui-layout-admin .layui-layout-left{padding:0 10px}.layui-layout-admin .layui-layout-left .layui-nav-item{margin:0 20px}.layui-layout-admin .layui-input-search{display:inline-block;vertical-align:middle;height:32px;border:none;cursor:text}.layui-layout-admin .layui-layout-left a,.layui-layout-admin .layui-layout-right{padding:0}.layui-header .layui-nav-item .layui-icon{position:relative;top:1px;font-size:16px}.layui-header .layui-layout-right .layui-badge-dot{margin-left:11px}.layui-header .layui-nav .layui-this:after,.layui-layout-admin .layui-header .layui-nav-bar{top:0!important;bottom:auto;height:3px;background-color:#fff;background-color:rgba(255,255,255,.3)}.layadmin-body-shade{position:fixed;display:none;left:0;right:0;top:0;bottom:0;background-color:rgba(0,0,0,.3);z-index:1000}.layui-side-menu .layui-side-scroll{width:240px}.layui-side-menu .layui-nav{width:220px;margin-top:50px;background:0 0}.layui-side-menu .layui-nav .layui-nav-item a{height:40px;line-height:40px;padding-left:45px;padding-right:30px}.layui-side-menu .layui-nav .layui-nav-item>a{padding-top:8px;padding-bottom:8px}.layui-side-menu .layui-nav .layui-nav-item a:hover{background:0 0}.layui-side-menu .layui-nav .layui-nav-itemed>.layui-nav-child{padding:5px 0}.layui-side-menu .layui-nav .layui-nav-item .layui-icon{position:absolute;top:50%;left:20px;margin-top:-19px}.layui-side-menu .layui-nav .layui-nav-child .layui-nav-child{background:0 0!important}.layui-side-menu .layui-nav .layui-nav-child .layui-nav-child a{padding-left:60px}.layui-side-menu .layui-nav .layui-nav-more{right:15px}@media screen and (max-width:992px){.layui-layout-admin .layui-side{transform:translate3d(-220px,0,0);-webkit-transform:translate3d(-220px,0,0);width:220px}.layadmin-pagetabs,.layui-layout-admin .layui-body,.layui-layout-admin .layui-footer,.layui-layout-admin .layui-layout-left{left:0}}.layadmin-side-shrink .layui-layout-admin .layui-logo{width:60px;background-image:url(res/logo.png)}.layadmin-side-shrink .layui-layout-admin .layui-logo span{display:none}.layadmin-side-shrink .layui-side{left:0;width:60px}.layadmin-side-shrink .layadmin-pagetabs,.layadmin-side-shrink .layui-layout-admin .layui-body,.layadmin-side-shrink .layui-layout-admin .layui-footer,.layadmin-side-shrink .layui-layout-admin .layui-layout-left{left:60px}.layadmin-side-shrink .layui-side-menu .layui-nav{position:static;width:60px}.layadmin-side-shrink .layui-side-menu .layui-nav-item{position:static}.layadmin-side-shrink .layui-side-menu .layui-nav-item>a{padding-right:0}.layadmin-side-shrink .layui-side-menu .layui-nav-item cite,.layadmin-side-shrink .layui-side-menu .layui-nav>.layui-nav-item>.layui-nav-child,.layadmin-side-shrink .layui-side-menu .layui-nav>.layui-nav-item>a .layui-nav-more{display:none;padding:8px 0;width:200px}.layadmin-side-shrink .layui-side-menu .layui-nav>.layui-nav-itemed>a{background:rgba(0,0,0,.3)}.layadmin-side-spread-sm .layadmin-pagetabs,.layadmin-side-spread-sm .layui-layout-admin .layui-body,.layadmin-side-spread-sm .layui-layout-admin .layui-footer,.layadmin-side-spread-sm .layui-layout-admin .layui-layout-left{left:0;transform:translate3d(220px,0,0);-webkit-transform:translate3d(220px,0,0)}.layadmin-side-spread-sm .layui-layout-admin .layui-layout-right{transform:translate3d(220px,0,0);-webkit-transform:translate3d(220px,0,0)}.layadmin-side-spread-sm .layui-side{transform:translate3d(0,0,0);-webkit-transform:translate3d(0,0,0)}.layadmin-side-spread-sm .layadmin-body-shade{display:block}.layadmin-pagetabs .layui-tab-title li:first-child .layui-tab-close,.layadmin-tabs-select.layui-nav .layui-nav-bar,.layadmin-tabs-select.layui-nav .layui-nav-more{display:none}.layadmin-pagetabs{height:40px;line-height:40px;padding:0 80px 0 40px;background-color:#fff;box-sizing:border-box;box-shadow:0 1px 2px 0 rgba(0,0,0,.1)}.layadmin-pagetabs .layadmin-tabs-control{position:absolute;top:0;width:40px;height:100%;text-align:center;cursor:pointer;transition:all .3s;-webkit-transition:all .3s;box-sizing:border-box;border-left:1px solid #f6f6f6}.layadmin-pagetabs .layadmin-tabs-control:hover{background-color:#f6f6f6}.layadmin-pagetabs .layui-icon-prev{left:0;border-left:none;border-right:1px solid #f6f6f6}.layadmin-pagetabs .layui-icon-next{right:40px}.layadmin-pagetabs .layui-icon-down{right:0}.layadmin-tabs-select.layui-nav{position:absolute;left:0;top:0;width:100%;height:100%;padding:0;background:0 0}.layadmin-tabs-select.layui-nav .layui-nav-item{line-height:40px}.layadmin-tabs-select.layui-nav .layui-nav-item>a{height:40px}.layadmin-tabs-select.layui-nav .layui-nav-item a{color:#666}.layadmin-tabs-select.layui-nav .layui-nav-child{top:40px;left:auto;right:0}.layadmin-tabs-select.layui-nav .layui-nav-child dd.layui-this,.layadmin-tabs-select.layui-nav .layui-nav-child dd.layui-this a{background-color:#f2f2f2!important;color:#333}.layadmin-pagetabs .layui-tab{margin:0;overflow:hidden}.layadmin-pagetabs .layui-tab-title{height:40px;border:none}.layadmin-pagetabs .layui-tab-title li{min-width:0;line-height:40px;max-width:160px;text-overflow:ellipsis;padding-right:40px;overflow:hidden;border-right:1px solid #f6f6f6;vertical-align:top}.layadmin-pagetabs .layui-tab-title li:first-child{padding-right:15px}.layadmin-pagetabs .layui-tab-title li .layui-tab-close{position:absolute;right:8px;top:50%;margin:-7px 0 0;width:16px;height:16px;line-height:16px;border-radius:50%;font-size:12px}.layadmin-pagetabs .layui-tab-title li:after{content:'';position:absolute;top:0;left:0;width:0;height:2px;border-radius:0;background-color:#292B34;transition:all .3s;-webkit-transition:all .3s}.layadmin-pagetabs .layui-tab-title li:hover:after{width:100%}.layadmin-pagetabs .layui-tab-title li.layui-this,.layadmin-pagetabs .layui-tab-title li:hover{background-color:#f6f6f6}.layadmin-pagetabs .layui-tab-title li.layui-this:after{width:100%;border:none;height:2px;background-color:#292B34}.layadmin-tabspage-none .layui-layout-admin .layui-header{border-bottom:none;box-shadow:0 1px 2px 0 rgba(0,0,0,.05)}.layadmin-tabspage-none .layui-layout-admin .layui-body{top:50px}.layadmin-tabspage-none .layadmin-header{display:block}.layadmin-tabspage-none .layadmin-header .layui-breadcrumb{border-top:1px solid #f6f6f6}.layui-layout-admin .layui-header{border-bottom:1px solid #f6f6f6;box-sizing:border-box;background-color:#fff}.layui-layout-admin .layui-header a,.layui-layout-admin .layui-header a cite{color:#333}.layui-layout-admin .layui-header a:hover{color:#000}.layui-layout-admin .layui-header .layui-nav .layui-nav-more{border-top-color:#666}.layui-layout-admin .layui-header .layui-nav .layui-nav-mored{border-color:transparent transparent #666}.layui-layout-admin .layui-header .layui-nav .layui-this:after,.layui-layout-admin .layui-header .layui-nav-bar{height:2px;background-color:#20222A}.layui-layout-admin .layui-logo{background-color:#20222A;box-shadow:0 1px 2px 0 rgba(0,0,0,.15)}.layui-layout-admin .layui-logo,.layui-layout-admin .layui-logo a{color:#fff;color:rgba(255,255,255,.8)}.layui-side-menu{box-shadow:1px 0 2px 0 rgba(0,0,0,.05)}.layui-layout-admin .layui-footer{padding:10px 0;text-align:center;box-shadow:0 -1px 2px 0 rgba(0,0,0,.05)}.layadmin-setTheme-side,.layui-side-menu{background-color:#20222A;color:#fff}.layadmin-setTheme-header,.layui-layout-admin .layui-footer{background-color:#fff}.layui-tab-admin .layui-tab-title{background-color:#393D49;color:#fff}.layui-fluid{padding:15px}.layadmin-header{display:none;height:50px;line-height:50px;margin-bottom:0;border-radius:0}.layadmin-header .layui-breadcrumb{padding:0 15px}.layui-card-header{position:relative}.layui-card-header .layui-icon{line-height:initial;position:absolute;right:15px;top:50%;margin-top:-7px}.layadmin-iframe{position:absolute;width:100%;height:100%;left:0;top:0;right:0;bottom:0}.layadmin-carousel{height:185px!important;background-color:#fff}.layadmin-carousel .layui-carousel-ind li{background-color:#e2e2e2}.layadmin-carousel .layui-carousel-ind li:hover{background-color:#c2c2c2}.layadmin-carousel .layui-carousel-ind li.layui-this{background-color:#999}.layadmin-carousel .layui-carousel,.layadmin-carousel>[carousel-item]>*{background-color:#fff}.layadmin-carousel .layui-col-space10{margin:0}.layadmin-carousel .layui-carousel-ind{position:absolute;top:-41px;text-align:right}.layadmin-carousel .layui-carousel-ind ul{background:0 0}.layui-card .layui-tab-brief .layui-tab-title{height:42px;border-bottom-color:#f6f6f6}.layui-card .layui-tab-brief .layui-tab-title li{margin:0 15px;padding:0;line-height:42px}.layui-card .layui-tab-brief .layui-tab-title li.layui-this{color:#333}.layui-card .layui-tab-brief .layui-tab-title .layui-this:after{height:43px}.layui-card .layui-tab-brief .layui-tab-content{padding:15px}.layui-card .layui-table-view{margin:0}.layadmin-shortcut li{text-align:center}.layadmin-shortcut li .layui-icon{display:inline-block;width:100%;height:60px;line-height:60px;text-align:center;border-radius:2px;font-size:30px;background-color:#F8F8F8;color:#333;transition:all .3s;-webkit-transition:all .3s}.layadmin-shortcut li cite{position:relative;top:2px;display:block;color:#666;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;font-size:14px}.layadmin-shortcut li:hover .layui-icon{background-color:#f2f2f2}.layadmin-backlog .layadmin-backlog-body{display:block;padding:10px 15px;background-color:#f8f8f8;color:#999;border-radius:2px;transition:all .3s;-webkit-transition:all .3s}.layadmin-backlog-body h3{padding-bottom:10px;font-size:12px}.layadmin-backlog-body p cite{font-style:normal;font-size:30px;font-weight:300;color:#009688}.layadmin-backlog-body:hover{background-color:#f2f2f2;color:#888}.layadmin-dataview{height:332px!important}.layadmin-dataview>[carousel-item]:before{display:none}.layadmin-dataview>[carousel-item]>div{height:332px}.layadmin-takerates{padding-top:5px}.layadmin-takerates .layui-progress{margin:50px 0 60px}.layadmin-takerates .layui-progress:last-child{margin-bottom:10px}.layadmin-takerates .layui-progress h3{position:absolute;right:0;top:-35px;color:#999;font-size:14px}.layadmin-takerates .layui-progress-bar{text-align:left}.layadmin-takerates .layui-progress-text{top:-35px;line-height:26px;font-size:26px}.layadmin-news{height:60px!important;padding:5px 0}.layadmin-news a{display:block;line-height:60px;text-align:center}.layadmin-news .layui-carousel-ind{height:45px}.layadmin-list li{margin-bottom:6px;padding-bottom:6px;border-bottom-color:#f6f6f6;list-style-position:inside;list-style-type:disc;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}.layadmin-list li a{color:#666}.layadmin-list li a:hover{color:#009688}.layadmin-list li:last-child{border:none;padding:0;margin:0}.layadmin-text p{margin-bottom:10px;text-indent:2em}.layadmin-text p:last-child{margin:0}.layadmin-font-em{font-size:13px;color:#758697}.layui-card-header .layui-a-tips{position:absolute;right:15px;color:#01AAED}.layuiadmin-card-text{background-color:#f8f8f8;color:#777;padding:24px}.layuiadmin-card-text .layui-text-top{padding-bottom:10px}.layuiadmin-card-text .layui-text-top i{margin-right:10px;font-size:24px;color:#009688}.layuiadmin-card-text .layui-text-top a{line-height:24px;font-size:16px;vertical-align:top}.layuiadmin-card-text .layui-text-center{height:44px;line-height:22px;margin-bottom:10px;overflow:hidden}.layuiadmin-card-text .layui-text-bottom{position:relative}.layuiadmin-card-text .layui-text-bottom a{color:#777;font-size:12px;text-overflow:ellipsis;word-break:break-all}.layuiadmin-card-text .layui-text-bottom span{color:#CCC;font-size:12px;position:absolute;right:0}.layuiadmin-badge,.layuiadmin-btn-group,.layuiadmin-span-color{position:absolute;right:15px}.layuiadmin-card-link a:hover,.layuiadmin-card-team li a:hover,.layuiadmin-card-text a:hover{color:#01AAED;transition:all .3s}.layuiadmin-card-status{padding:0 10px 10px}.layuiadmin-card-status dd{padding:15px 0;border-bottom:1px solid #EEE;display:-webkit-flex;display:flex}.layuiadmin-card-status dd:last-child{border:none}.layuiadmin-card-status dd div.layui-status-img,.layuiadmin-card-team .layui-team-img{width:32px;height:32px;border-radius:50%;background-color:#009688;margin-right:15px}.layuiadmin-card-status dd div.layui-status-img a{width:100%;height:100%;display:inline-block;text-align:center;line-height:32px}.layuiadmin-card-status dd div.layui-status-img img,.layuiadmin-card-team .layui-team-img img{width:50%;height:50%}.layuiadmin-card-status dd div a{color:#01AAED}.layuiadmin-card-status dd div span{color:#BBB}.layuiadmin-card-link{padding-left:10px;font-size:0}.layuiadmin-card-link a{display:inline-block;width:25%;color:#666;font-size:14px;margin-bottom:12px}.layuiadmin-card-link button{vertical-align:top}.layuiadmin-card-link button:hover{color:#009688}.layuiadmin-card-team li{padding:10px 0 10px 10px}.layuiadmin-card-team .layui-team-img{display:inline-block;margin-right:8px;width:24px;height:24px;text-align:center;line-height:24px}.layuiadmin-card-team span{color:#777}.layuiadmin-badge{top:50%;margin-top:-9px;color:#01AAED}.layuiadmin-card-list{padding:15px}.layuiadmin-card-list p.layuiadmin-big-font{font-size:36px;color:#666;line-height:36px;padding:5px 0 10px;overflow:hidden;text-overflow:ellipsis;word-break:break-all;white-space:nowrap}.layuiadmin-card-list p.layuiadmin-normal-font{padding-bottom:10px;font-size:20px;color:#666;line-height:24px}.layuiadmin-span-color{font-size:14px}.layuiadmin-span-color i{padding-left:5px}.layuiadmin-card-status li{position:relative;padding:10px 0;border-bottom:1px solid #EEE}.layuiadmin-card-status li h3{padding-bottom:5px;font-weight:700}.layuiadmin-card-status li p{padding-bottom:10px}.layuiadmin-card-status li>span{color:#999}.layuiadmin-home2-usernote .layuiadmin-reply{display:none;position:absolute;right:0;bottom:12px}.layuiadmin-home2-usernote li:hover .layuiadmin-reply{display:block}.layuiadmin-page-table td span{color:#2F4056}.layuiadmin-page-table td span.first{color:#FF5722}.layuiadmin-page-table td span.second{color:#FFB800}.layuiadmin-page-table td span.third{color:#5FB878}.layuiAdmin-msg-detail h1{font-size:16px}.layuiAdmin-msg-detail .layui-card-header{height:auto;line-height:30px;padding:15px}.layuiAdmin-msg-detail .layui-card-header span{padding:0 5px;color:#999}.layuiAdmin-msg-detail .layui-card-header span:first-child{padding-left:0}.layuiAdmin-msg-detail .layui-card-body{padding:15px}.layuiadmin-content-bread{padding-bottom:20px}.layuiadmin-order-progress{position:relative;top:12px}.layui-card-header.layuiadmin-card-header-auto{padding-top:15px;padding-bottom:15px;height:auto}.layuiadmin-card-header-auto i.layuiadmin-button-btn{position:relative;right:0;top:0;vertical-align:middle}.layuiadmin-card-header-auto .layui-form-item:last-child{margin-bottom:0}.layadmin-setTheme{padding:15px;overflow-x:hidden}.layadmin-setTheme>h5{padding:20px 0 10px;color:#000}.layadmin-setTheme>h5:first-child{padding-top:0}.layadmin-setTheme-color{width:330px;font-size:0}.layadmin-setTheme-color li{position:relative;display:inline-block;vertical-align:top;width:80px;height:50px;margin:0 15px 15px 0;background-color:#f2f2f2;cursor:pointer;font-size:12px;color:#666}.layadmin-setTheme-color li:after{content:'';position:absolute;z-index:20;top:50%;left:50%;width:1px;height:0;border:1px solid #f2f2f2;transition:all .3s;-webkit-transition:all .3s;opacity:0}.layadmin-setTheme-color li.layui-this:after,.layadmin-setTheme-color li:hover:after{width:100%;height:100%;padding:4px;top:-5px;left:-5px;border-color:#5FB878;opacity:1}.layadmin-setTheme-header{position:relative;z-index:10;height:10px;border-top:1px solid #f2f2f2;border-right:1px solid #f2f2f2}.layadmin-setTheme-side{position:absolute;left:0;top:0;width:20px;height:100%;z-index:11;box-shadow:1px 0 2px 0 rgba(0,0,0,.05)}.layadmin-setTheme-logo{position:absolute;left:0;top:0;width:100%;height:10px;box-shadow:0 1px 2px 0 rgba(0,0,0,.15)}.layadmin-form-right{text-align:right}.layadmin-about p{margin-bottom:10px}.layadmin-menu-list .layui-card-header{height:50px;line-height:50px;font-size:16px}.layadmin-menu-list .layui-card-header:active{background-color:#f2f2f2}.layadmin-menu-list .layui-card-header .layui-icon{position:relative;top:1px;left:0;display:inline-block;margin:0 10px;font-size:18px}@-webkit-keyframes layui-rl{from{-webkit-transform:translate3d(100%,0,0)}to{-webkit-transform:translate3d(0,0,0)}}@keyframes layui-rl{from{transform:translate3d(100%,0,0)}to{transform:translate3d(0,0,0)}}.layui-anim-rl{-webkit-animation-name:layui-rl;animation-name:layui-rl}@-webkit-keyframes layui-lr{from{-webkit-transform:translate3d(0 0,0);opacity:1}to{-webkit-transform:translate3d(100%,0,0);opacity:1}}@keyframes layui-lr{from{transform:translate3d(0,0,0)}to{transform:translate3d(100%,0,0)}}.layui-anim-lr,.layui-anim-rl.layer-anim-close{-webkit-animation-name:layui-lr;animation-name:layui-lr}.layadmin-tips{margin-top:30px;text-align:center}.layadmin-tips .layui-icon[face]{display:inline-block;font-size:300px;color:#393D49}.layadmin-tips .layui-text{width:500px;margin:30px auto;padding-top:20px;border-top:5px solid #009688;font-size:16px}.layadmin-tips h1{font-size:100px;line-height:100px;color:#009688}.layadmin-tips .layui-text .layui-anim{display:inline-block}@media screen and (max-width:768px){.layadmin-panel-selection{margin:0;width:auto}.layui-body .layui-nav .layui-nav-item{display:block}.layui-layout-admin .layui-body .layadmin-tabsbody-item{-webkit-overflow-scrolling:touch;overflow:auto}}*/
-    </style>
+    <link rel="stylesheet" href="${path}/resource/css/admin.css" media="all">
+    <script type="text/javascript" src="${path}/config.js"></script>
+    <script>
+        /^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
+    </script>
 </head>
 <body class="layui-layout-body">
-<div class="layui-layout layui-layout-admin">
-    <div class="layui-header">
-        <div class="layui-logo">layui 后台布局</div>
-        <!-- 头部区域（可配合layui已有的水平导航） -->
-        <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a href="">控制台</a></li>
-            <li class="layui-nav-item"><a href="">商品管理</a></li>
-            <li class="layui-nav-item"><a href="">用户</a></li>
-            <li class="layui-nav-item">
-                <a href="javascript:;">其它系统</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="">邮件管理</a></dd>
-                    <dd><a href="">消息管理</a></dd>
-                    <dd><a href="">授权管理</a></dd>
-                </dl>
-            </li>
-        </ul>
-        <ul class="layui-nav layui-layout-right">
-            <li class="layui-nav-item">
-                <a href="javascript:;">
-                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                    贤心
-                </a>
-                <dl class="layui-nav-child">
-                    <dd><a href="">基本资料</a></dd>
-                    <dd><a href="">安全设置</a></dd>
-                </dl>
-            </li>
-            <li class="layui-nav-item"><a href="">退了</a></li>
-        </ul>
-    </div>
 
-    <div class="layui-side layui-bg-black">
-        <div class="layui-side-scroll">
-            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">用户管理</a>
+<div id="LAY_app">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <!-- 头部区域 -->
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item layadmin-flexible" lay-unselect>
+                    <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+                        <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="http://www.layui.com/admin/" target="_blank" title="前台">
+                        <i class="layui-icon layui-icon-website"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item" lay-unselect>
+                    <a href="javascript:;" layadmin-event="refresh" title="刷新">
+                        <i class="layui-icon layui-icon-refresh-3"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search.html?keywords=">
+                </li>
+            </ul>
+            <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+
+                <li class="layui-nav-item" lay-unselect>
+                    <a lay-href="app/message/index.html" layadmin-event="message" lay-text="消息中心">
+                        <i class="layui-icon layui-icon-notice"></i>
+
+                        <!-- 如果有新消息，则显示小圆点 -->
+                        <span class="layui-badge-dot"></span>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="javascript:;" layadmin-event="theme">
+                        <i class="layui-icon layui-icon-theme"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="javascript:;" layadmin-event="note">
+                        <i class="layui-icon layui-icon-note"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="javascript:;" layadmin-event="fullscreen">
+                        <i class="layui-icon layui-icon-screen-full"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item" lay-unselect>
+                    <a href="javascript:;">
+                        <cite>贤心</cite>
+                    </a>
                     <dl class="layui-nav-child">
-                        <dd><a href="${path}/user/userList" href1="javascript:;">用户列表</a></dd>
-                        <dd><a href="javascript:;" lay-data="${path}/user/login">列表二</a></dd>
-                        <dd><a href="javascript:;">列表三</a></dd>
-                        <dd><a href="">超链接</a></dd>
+                        <dd><a lay-href="set/user/info.html">基本资料</a></dd>
+                        <dd><a lay-href="set/user/password.html">修改密码</a></dd>
+                        <hr>
+                        <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">解决方案</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">列表一</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="">超链接</a></dd>
-                    </dl>
+
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="javascript:;" layadmin-event="about"><i class="layui-icon layui-icon-more-vertical"></i></a>
                 </li>
-                <li class="layui-nav-item"><a href="">云市场</a></li>
-                <li class="layui-nav-item"><a href="">发布商品</a></li>
+                <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-unselect>
+                    <a href="javascript:;" layadmin-event="more"><i class="layui-icon layui-icon-more-vertical"></i></a>
+                </li>
             </ul>
         </div>
-    </div>
 
-    <div class="layui-body">
-        <!-- 内容主体区域 -->
-        <div style="padding: 15px;">
-            <iframe id="iframeParent"></iframe>
+        <!-- 侧边菜单 -->
+        <div class="layui-side layui-side-menu">
+            <div class="layui-side-scroll">
+                <div class="layui-logo" lay-href="home/console.html">
+                    <span>layuiAdmin</span>
+                </div>
+
+                <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
+                    <li data-name="home" class="layui-nav-item layui-nav-itemed">
+                        <a href="javascript:;" lay-tips="主页" lay-direction="2">
+                            <i class="layui-icon layui-icon-home"></i>
+                            <cite>主页</cite>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd data-name="console" class="layui-this">
+                                <a lay-href="home/console.html">控制台</a>
+                            </dd>
+                            <dd data-name="console">
+                                <a lay-href="${path}/user/userList">主页一</a>
+                            </dd>
+                            <dd data-name="console">
+                                <a lay-href="${path}/menu/toMenuPage">菜单管理</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li data-name="component" class="layui-nav-item">
+                        <a href="javascript:;" lay-tips="组件" lay-direction="2">
+                            <i class="layui-icon layui-icon-component"></i>
+                            <cite>组件</cite>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd data-name="grid">
+                                <a href="javascript:;">栅格</a>
+                                <dl class="layui-nav-child">
+                                    <dd data-name="list"><a lay-href="component/grid/list.html">等比例列表排列</a></dd>
+                                    <dd data-name="mobile"><a lay-href="component/grid/mobile.html">按移动端排列</a></dd>
+                                    <dd data-name="mobile-pc"><a lay-href="component/grid/mobile-pc.html">移动桌面端组合</a></dd>
+                                    <dd data-name="all"><a lay-href="component/grid/all.html">全端复杂组合</a></dd>
+                                    <dd data-name="stack"><a lay-href="component/grid/stack.html">低于桌面堆叠排列</a></dd>
+                                    <dd data-name="speed-dial"><a lay-href="component/grid/speed-dial.html">九宫格</a></dd>
+                                </dl>
+                            </dd>
+                            <dd data-name="button">
+                                <a lay-href="component/button/index.html">按钮</a>
+                            </dd>
+                            <dd data-name="form">
+                                <a href="javascript:;">表单</a>
+                                <dl class="layui-nav-child">
+                                    <dd><a lay-href="component/form/element.html">表单元素</a></dd>
+                                    <dd><a lay-href="component/form/group.html">表单组合</a></dd>
+                                </dl>
+                            </dd>
+                            <dd data-name="nav">
+                                <a lay-href="component/nav/index.html">导航</a>
+                            </dd>
+                            <dd data-name="tabs">
+                                <a lay-href="component/tabs/index.html">选项卡</a>
+                            </dd>
+                            <dd data-name="progress">
+                                <a lay-href="component/progress/index.html">进度条</a>
+                            </dd>
+                            <dd data-name="panel">
+                                <a lay-href="component/panel/index.html">面板</a>
+                            </dd>
+                            <dd data-name="badge">
+                                <a lay-href="component/badge/index.html">徽章</a>
+                            </dd>
+                            <dd data-name="timeline">
+                                <a lay-href="component/timeline/index.html">时间线</a>
+                            </dd>
+                            <dd data-name="anim">
+                                <a lay-href="component/anim/index.html">动画</a>
+                            </dd>
+                            <dd data-name="auxiliar">
+                                <a lay-href="component/auxiliar/index.html">辅助</a>
+                            </dd>
+                            <dd data-name="layer">
+                                <a href="javascript:;">通用弹层<span class="layui-nav-more"></span></a>
+                                <dl class="layui-nav-child">
+                                    <dd data-name="list">
+                                        <a lay-href="component/layer/list.html" lay-text="layer 功能演示">功能演示</a>
+                                    </dd>
+                                    <dd data-name="special-demo">
+                                        <a lay-href="component/layer/special-demo.html" lay-text="layer 特殊示例">特殊示例</a>
+                                    </dd>
+                                    <dd data-name="theme">
+                                        <a lay-href="component/layer/theme.html" lay-text="layer 风格定制">风格定制</a>
+                                    </dd>
+                                </dl>
+                            </dd>
+                            <dd data-name="laydate">
+                                <a href="javascript:;">日期时间</a>
+                                <dl class="layui-nav-child">
+                                    <dd data-name="demo1">
+                                        <a lay-href="component/laydate/demo1.html" lay-text="layDate 功能演示一">功能演示一</a>
+                                    </dd>
+                                    <dd data-name="demo2">
+                                        <a lay-href="component/laydate/demo2.html" lay-text="layDate 功能演示二">功能演示二</a>
+                                    </dd>
+                                    <dd data-name="theme">
+                                        <a lay-href="component/laydate/theme.html" lay-text="layDate 设定主题">设定主题</a>
+                                    </dd>
+                                    <dd data-name="special-demo">
+                                        <a lay-href="component/laydate/special-demo.html" lay-text="layDate 特殊示例">特殊示例</a>
+                                    </dd>
+                                </dl>
+                            </dd>
+                            <dd data-name="table-static">
+                                <a lay-href="component/table/static.html">静态表格</a>
+                            </dd>
+                            <dd data-name="table">
+                                <a href="javascript:;">数据表格</a>
+                                <dl class="layui-nav-child">
+                                    <dd data-name="simple">
+                                        <a lay-href="component/table/simple.html" lay-text="">简单数据表格</a>
+                                    </dd>
+                                    <dd data-name="auto">
+                                        <a lay-href="component/table/auto.html" lay-text="">列宽自动分配</a>
+                                    </dd>
+                                    <dd data-name="data">
+                                        <a lay-href="component/table/data.html" lay-text="">赋值已知数据</a>
+                                    </dd>
+                                    <dd data-name="tostatic">
+                                        <a lay-href="component/table/tostatic.html" lay-text="">转化静态表格</a>
+                                    </dd>
+                                    <dd data-name="page">
+                                        <a lay-href="component/table/page.html" lay-text="">开启分页</a>
+                                    </dd>
+                                    <dd data-name="resetPage">
+                                        <a lay-href="component/table/resetPage.html" lay-text="">自定义分页</a>
+                                    </dd>
+                                    <dd data-name="toolbar">
+                                        <a lay-href="component/table/toolbar.html" lay-text="">开启头部工具栏</a>
+                                    </dd>
+                                    <dd data-name="totalRow">
+                                        <a lay-href="component/table/totalRow.html" lay-text="">开启合计行</a>
+                                    </dd>
+                                    <dd data-name="height">
+                                        <a lay-href="component/table/height.html" lay-text="">高度最大适应</a>
+                                    </dd>
+                                    <dd data-name="checkbox">
+                                        <a lay-href="component/table/checkbox.html" lay-text="">开启复选框</a>
+                                    </dd>
+                                    <dd data-name="radio">
+                                        <a lay-href="component/table/radio.html" lay-text="">开启单选框</a>
+                                    </dd>
+                                    <dd data-name="cellEdit">
+                                        <a lay-href="component/table/cellEdit.html" lay-text="">开启单元格编辑</a>
+                                    </dd>
+                                    <dd data-name="form">
+                                        <a lay-href="component/table/form.html" lay-text="">加入表单元素</a>
+                                    </dd>
+                                    <dd data-name="style">
+                                        <a lay-href="component/table/style.html" lay-text="">设置单元格样式</a>
+                                    </dd>
+                                    <dd data-name="fixed">
+                                        <a lay-href="component/table/fixed.html" lay-text="">固定列</a>
+                                    </dd>
+                                    <dd data-name="operate">
+                                        <a lay-href="component/table/operate.html" lay-text="">数据操作</a>
+                                    </dd>
+                                    <dd data-name="parseData">
+                                        <a lay-href="component/table/parseData.html" lay-text="">解析任意数据格式</a>
+                                    </dd>
+                                    <dd data-name="onrow">
+                                        <a lay-href="component/table/onrow.html" lay-text="">监听行事件</a>
+                                    </dd>
+                                    <dd data-name="reload">
+                                        <a lay-href="component/table/reload.html" lay-text="">数据表格的重载</a>
+                                    </dd>
+                                    <dd data-name="initSort">
+                                        <a lay-href="component/table/initSort.html" lay-text="">设置初始排序</a>
+                                    </dd>
+                                    <dd data-name="cellEvent">
+                                        <a lay-href="component/table/cellEvent.html" lay-text="">监听单元格事件</a>
+                                    </dd>
+                                    <dd data-name="thead">
+                                        <a lay-href="component/table/thead.html" lay-text="">复杂表头</a>
+                                    </dd>
+                                </dl>
+                            </dd>
+                            <dd data-name="laypage">
+                                <a href="javascript:;">分页</a>
+                                <dl class="layui-nav-child">
+                                    <dd data-name="demo1">
+                                        <a lay-href="component/laypage/demo1.html" lay-text="layPage 功能演示一">功能演示一</a>
+                                    </dd>
+                                    <dd data-name="demo2">
+                                        <a lay-href="component/laypage/demo2.html" lay-text="layPage 功能演示二">功能演示二</a>
+                                    </dd>
+                                </dl>
+                            </dd>
+                            <dd data-name="upload">
+                                <a href="javascript:;">上传</a>
+                                <dl class="layui-nav-child">
+                                    <dd data-name="demo1">
+                                        <a lay-href="component/upload/demo1.html" lay-text="上传功能演示一">功能演示一</a>
+                                    </dd>
+                                    <dd data-name="demo2">
+                                        <a lay-href="component/upload/demo2.html" lay-text="上传功能演示二">功能演示二</a>
+                                    </dd>
+                                </dl>
+                            </dd>
+                            <dd data-name="colorpicker">
+                                <a lay-href="component/colorpicker/index.html">颜色选择器</a>
+                            </dd>
+                            <dd data-name="slider">
+                                <a lay-href="component/slider/index.html">滑块组件</a>
+                            </dd>
+                            <dd data-name="rate">
+                                <a lay-href="component/rate/index.html">评分</a>
+                            </dd>
+                            <dd data-name="carousel">
+                                <a lay-href="component/carousel/index.html">轮播</a>
+                            </dd>
+                            <dd data-name="flow">
+                                <a lay-href="component/flow/index.html">流加载</a>
+                            </dd>
+                            <dd data-name="util">
+                                <a lay-href="component/util/index.html">工具</a>
+                            </dd>
+                            <dd data-name="code">
+                                <a lay-href="component/code/index.html">代码修饰</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li data-name="template" class="layui-nav-item">
+                        <a href="javascript:;" lay-tips="页面" lay-direction="2">
+                            <i class="layui-icon layui-icon-template"></i>
+                            <cite>页面</cite>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd><a lay-href="template/personalpage.html">个人主页</a></dd>
+                            <dd><a lay-href="template/addresslist.html">通讯录</a></dd>
+                            <dd><a lay-href="template/caller.html">客户列表</a></dd>
+                            <dd><a lay-href="template/goodslist.html">商品列表</a></dd>
+                            <dd><a lay-href="template/msgboard.html">留言板</a></dd>
+                            <dd><a lay-href="template/search.html">搜索结果</a></dd>
+                            <dd><a href="user/reg.html" target="_blank">注册</a></dd>
+                            <dd><a href="user/login.html" target="_blank">登入</a></dd>
+                            <dd><a href="user/forget.html" target="_blank">忘记密码</a></dd>
+                            <dd><a lay-href="template/tips/404.html">404页面不存在</a></dd>
+                            <dd><a lay-href="template/tips/error.html">错误提示</a></dd>
+                            <dd><a lay-href="//www.baidu.com/">百度一下</a></dd>
+                            <dd><a lay-href="//www.layui.com/">layui官网</a></dd>
+                            <dd><a lay-href="//www.layui.com/admin/">layuiAdmin官网</a></dd>
+                        </dl>
+                    </li>
+                    <li data-name="app" class="layui-nav-item">
+                        <a href="javascript:;" lay-tips="应用" lay-direction="2">
+                            <i class="layui-icon layui-icon-app"></i>
+                            <cite>应用</cite>
+                        </a>
+                        <dl class="layui-nav-child">
+
+                            <dd data-name="content">
+                                <a href="javascript:;">内容系统</a>
+                                <dl class="layui-nav-child">
+                                    <dd data-name="list"><a lay-href="app/content/list.html">文章列表</a></dd>
+                                    <dd data-name="tags"><a lay-href="app/content/tags.html">分类管理</a></dd>
+                                    <dd data-name="comment"><a lay-href="app/content/comment.html">评论管理</a></dd>
+                                </dl>
+                            </dd>
+                            <dd data-name="forum">
+                                <a href="javascript:;">社区系统</a>
+                                <dl class="layui-nav-child">
+                                    <dd data-name="list"><a lay-href="app/forum/list.html">帖子列表</a></dd>
+                                    <dd data-name="replys"><a lay-href="app/forum/replys.html">回帖列表</a></dd>
+                                </dl>
+                            </dd>
+                            <dd>
+                                <a lay-href="app/message/index.html">消息中心</a>
+                            </dd>
+                            <dd data-name="workorder">
+                                <a lay-href="app/workorder/list.html">工单系统</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li data-name="senior" class="layui-nav-item">
+                        <a href="javascript:;" lay-tips="高级" lay-direction="2">
+                            <i class="layui-icon layui-icon-senior"></i>
+                            <cite>高级</cite>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a layadmin-event="im">LayIM 通讯系统</a>
+                            </dd>
+                            <dd data-name="echarts">
+                                <a href="javascript:;">Echarts集成</a>
+                                <dl class="layui-nav-child">
+                                    <dd><a lay-href="senior/echarts/line.html">折线图</a></dd>
+                                    <dd><a lay-href="senior/echarts/bar.html">柱状图</a></dd>
+                                    <dd><a lay-href="senior/echarts/map.html">地图</a></dd>
+                                </dl>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li data-name="user" class="layui-nav-item">
+                        <a href="javascript:;" lay-tips="用户" lay-direction="2">
+                            <i class="layui-icon layui-icon-user"></i>
+                            <cite>用户</cite>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a lay-href="user/user/list.html">网站用户</a>
+                            </dd>
+                            <dd>
+                                <a lay-href="user/administrators/list.html">后台管理员</a>
+                            </dd>
+                            <dd>
+                                <a lay-href="user/administrators/role.html">角色管理</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li data-name="set" class="layui-nav-item">
+                        <a href="javascript:;" lay-tips="设置" lay-direction="2">
+                            <i class="layui-icon layui-icon-set"></i>
+                            <cite>设置</cite>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd class="layui-nav-itemed">
+                                <a href="javascript:;">系统设置</a>
+                                <dl class="layui-nav-child">
+                                    <dd><a lay-href="set/system/website.html">网站设置</a></dd>
+                                    <dd><a lay-href="set/system/email.html">邮件服务</a></dd>
+                                </dl>
+                            </dd>
+                            <dd class="layui-nav-itemed">
+                                <a href="javascript:;">我的设置</a>
+                                <dl class="layui-nav-child">
+                                    <dd><a lay-href="set/user/info.html">基本资料</a></dd>
+                                    <dd><a lay-href="set/user/password.html">修改密码</a></dd>
+                                </dl>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li data-name="get" class="layui-nav-item">
+                        <a href="javascript:;" lay-href="//www.layui.com/admin/#get" lay-tips="授权" lay-direction="2">
+                            <i class="layui-icon layui-icon-auz"></i>
+                            <cite>授权</cite>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <!--右侧主体内容-->
+
+        <!-- 页面标签 -->
+        <div class="layadmin-pagetabs" id="LAY_app_tabs">
+            <div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>
+            <div class="layui-icon layadmin-tabs-control layui-icon-next" layadmin-event="rightPage"></div>
+            <div class="layui-icon layadmin-tabs-control layui-icon-down">
+                <ul class="layui-nav layadmin-tabs-select" lay-filter="layadmin-pagetabs-nav">
+                    <li class="layui-nav-item" lay-unselect>
+                        <a href="javascript:;"></a>
+                        <dl class="layui-nav-child layui-anim-fadein">
+                            <dd layadmin-event="closeThisTabs"><a href="javascript:;">关闭当前标签页</a></dd>
+                            <dd layadmin-event="closeOtherTabs"><a href="javascript:;">关闭其它标签页</a></dd>
+                            <dd layadmin-event="closeAllTabs"><a href="javascript:;">关闭全部标签页</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+            <div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
+                <ul class="layui-tab-title" id="LAY_app_tabsheader">
+                    <li lay-id="home/console.html" lay-attr="home/console.html" class="layui-this"><i class="layui-icon layui-icon-home"></i></li>
+                </ul>
+            </div>
+        </div>
 
 
-    <div class="layui-footer">
-        <!-- 底部固定区域 -->
-        © layui.com - 底部固定区域
+        <!-- 主体内容 -->
+        <div class="layui-body" id="LAY_app_body">
+            <div class="layadmin-tabsbody-item layui-show">
+                <iframe src="home/console.html" frameborder="0" class="layadmin-iframe"></iframe>
+            </div>
+        </div>
+
+        <!-- 辅助元素，一般用于移动设备下遮罩 -->
+        <div class="layadmin-body-shade" layadmin-event="shade"></div>
     </div>
 </div>
-<script type="text/javascript" src="${path}/resource/js/admin/leftNav.js"></script>
-<script type="text/javascript" src="${path}/resource/js/admin/index.js"></script>
+
 <script>
-    //JavaScript代码区域
-    layui.use('element', function () {
-        var element = layui.element;
-        //监听导航点击
-        element.on('nav(demo)', function(elem){
-            console.log(elem)
-            layer.msg(elem.text());
-        });
-    });
+    layui.config({
+        base: '' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use('index');
+</script>
 
-    // var _hmt = _hmt || [];
-    // (function() {
-    //     var hm = document.createElement("script");
-    //     hm.src = "https://hm.baidu.com/hm.js?d214947968792b839fd669a4decaaffc";
-    //     var s = document.getElementsByTagName("script")[0];
-    //     s.parentNode.insertBefore(hm, s);
-    // })();
-
+<!-- 百度统计 -->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?d214947968792b839fd669a4decaaffc";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
 </script>
 </body>
 </html>
+
+
+
