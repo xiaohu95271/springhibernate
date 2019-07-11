@@ -710,4 +710,11 @@ public class BaseRepositoryImpl<M extends Serializable, PK extends Serializable>
 			return 0;
 		}
 	}
+
+	@Override
+	public void saveTest() {
+		Session genericSession = getGenericSession();
+		System.out.println(11111);
+		System.out.println(System.getProperty("java.io.tmpdir"));
+	}
 }

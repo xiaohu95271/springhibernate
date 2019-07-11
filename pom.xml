@@ -175,6 +175,22 @@
       <artifactId>jstl</artifactId>
       <version>1.2</version>
     </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <version>1.2.3</version>
+    </dependency>
+    <!--二级缓存-->
+    <dependency>
+      <groupId>net.sf.ehcache</groupId>
+     <artifactId>ehcache-core</artifactId>
+      <version>2.5.3</version>
+    </dependency>
+    <!--<dependency>-->
+      <!--<groupId></groupId>-->
+     <!--<artifactId>eh</artifactId>-->
+      <!--<version>/version>-->
+    <!--</dependency>-->
   </dependencies>
 
   <build>

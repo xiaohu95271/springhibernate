@@ -2,9 +2,11 @@ package com.xiaohu.demo.service.user.impl;
 
 import com.xiaohu.demo.common.page.PageBean;
 import com.xiaohu.demo.domain.repository.base.IBaseRepository;
+import com.xiaohu.demo.domain.repository.base.impl.BaseRepositoryImpl;
 import com.xiaohu.demo.domain.user.User;
 import com.xiaohu.demo.service.base.impl.BaseServiceImpl;
 import com.xiaohu.demo.service.user.IUserService;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,5 +36,10 @@ public class UserServiceImpl extends BaseServiceImpl<User,String> implements IUs
         PageBean<User> from_user = baseRepository.queryPage(bean, "from User", "", null);
         return from_user;
 
+    }
+
+    @Override
+    public void saveTest() {
+       baseRepository.saveTest();
     }
 }

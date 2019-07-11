@@ -19,4 +19,6 @@ public interface IUserService extends IBaseService<User,String> {
      * @return
      */
     PageBean<User> queryList(User user, Integer page, Integer limit);
+
+    void saveTest();
 }

@@ -85,6 +85,9 @@ public class UserController {
     @RequestMapping(value = "/userList")
     public ModelAndView userList(User user) {
         ModelAndView view = new ModelAndView();
+
+        userService.saveTest();
+
         view.setViewName("user/user-list");
         return view;
     }
