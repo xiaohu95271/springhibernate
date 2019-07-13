@@ -9,6 +9,7 @@ import javax.persistence.Table;
 /**
  * 菜单实体类
  *
+ * @author 13220
  */
 @Entity
 @Table(name = "sys_menu")
@@ -35,4 +36,8 @@ public class Menu extends BaseVO {
      * 备注
      */
     private String remark;
+    /**
+     * 排序
+     */
+    private Integer orderNumber;
 }

@@ -3,6 +3,7 @@ package com.xiaohu.demo.controller.menu;
 import com.xiaohu.demo.common.menu.MenuResultUtil;
 import com.xiaohu.demo.domain.system.menu.Menu;
 import com.xiaohu.demo.domain.system.menu.MenuResult;
+import com.xiaohu.demo.domain.user.User;
 import com.xiaohu.demo.service.admin.menu.IMenuService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 /**
  * 菜单控制器
+ * @author 13220
  */
 @Controller
 @RequestMapping("/menu")
@@ -47,20 +49,16 @@ public class MenuController {
     @RequestMapping("/toMenuEditPage")
     public ModelAndView toMenuEditPage(String id) {
         ModelAndView modelAndView = new ModelAndView("system/menu/menu-edit");
-        if (StringUtils.isNotBlank(id)){
-           Menu menu = menuService.get(id);
-           if (menu == null){
-               menu = new Menu();
-               menu.setId("");
-               menu.setName("系统根目录");
-           }
-           modelAndView.addObject("menu",menu);
-       }else {
-            Menu menu =  menu = new Menu();
-            menu.setId("");
-            menu.setName("系统根目录");
-            modelAndView.addObject("menu",menu);
+        Menu menu = menuService.get(id);
+        Menu menu1 = null;
+        if (StringUtils.isNotBlank(menu.getPid())){
+            menu1 = menuService.get(menu.getPid());
+        }else {
+            menu1 = new Menu();
+            menu1.setName("系统根目录");
         }
+        modelAndView.addObject("name",menu1.getName());
+        modelAndView.addObject("menu",menu);
         return modelAndView;
     }
 
@@ -72,7 +70,7 @@ public class MenuController {
     @RequestMapping("/menuData")
     @ResponseBody
     public  List<MenuResult> menuData(){
-        List<Menu> menus = menuService.loadAll();
+        List<Menu> menus = menuService.getData(new User());
         return MenuResultUtil.menuResults(menus,null,null);
     }
 
@@ -82,9 +80,35 @@ public class MenuController {
      */
     @RequestMapping("/add")
     @ResponseBody
-    public  String add(Menu menu){
-        String id = menuService.saveMenu(menu);
+    public  Menu add(Menu menu){
+        if (StringUtils.isBlank(menu.getName())){
+            menu.setName("未命名");
+        }
+        Menu id = menuService.saveMenu(menu);
         return id;
+    }
+
+
+    /**
+     * 菜单更新
+     * @return
+     */
+    @RequestMapping("/update")
+    @ResponseBody
+    public  Object update(MenuResult result){
+        Menu menu = menuService.updateMenu(result);
+        return menu;
+    }
+
+    /**
+     * 菜单更新
+     * @return
+     */
+    @RequestMapping("/del")
+    @ResponseBody
+    public  Object del(String id){
+        boolean menu = menuService.delMenuById(id);
+        return menu;
     }
 
 }

@@ -22,11 +22,11 @@
 <body>
 
     <div style="padding: 20px;">
-        <form class="layui-form" action="${path}/menu/add" id="formData">
+        <form class="layui-form" id="formData">
             <div class="layui-form-item">
                 <label class="layui-form-label">父级名称</label>
                 <div class="layui-input-block">
-                    <input type="text" name="pName" value="${menu.name}"  readonly autocomplete="off" class="layui-input layui-disabled">
+                    <input type="text" name="pName" value="${name}"  readonly autocomplete="off" class="layui-input layui-disabled">
                     <input type="hidden" name="pid" value="${menu.pid}" >
                     <input type="hidden" name="id" value="${menu.id}" >
                 </div>
@@ -49,6 +49,13 @@
                 <label class="layui-form-label">图标路径</label>
                 <div class="layui-input-block">
                     <input type="text" name="icon" placeholder="请输入图标路径"  value="${menu.icon}"
+    autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">排序</label>
+                <div class="layui-input-block">
+                    <input type="number" name="orderNumber" placeholder="请输入排序降序排序"  value="${menu.orderNumber}"
     autocomplete="off" class="layui-input">
                 </div>
             </div>
@@ -123,7 +130,7 @@
 
     $("#formData").submit(function () {
        $(this).ajaxSubmit(ajaxFormOption);
-        return false;
+        return true;
     });
 
     var ajaxFormOption = {
@@ -132,7 +139,8 @@
         data: $("#formData").serialize(),//自定义数据参数，视情况添加
         url: "${path}/menu/add", //请求url
         success: function (data) { //提交成功的回调函数
-            layer.msg('添加成功', {icon: 6});
+            layer.msg('添加成功', {icon: 6,time: 5000});
+            window.parent.layer.closeAll()
         }
     };
  </script>

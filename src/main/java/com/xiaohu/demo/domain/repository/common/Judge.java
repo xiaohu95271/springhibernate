@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 
+/**
+ * @author 13220
+ */
 public class Judge {
 	public static boolean isEmpty(String source) {
 		if (source != null && !"".equals(source.trim())) {

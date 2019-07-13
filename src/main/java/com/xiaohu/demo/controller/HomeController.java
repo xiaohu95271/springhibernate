@@ -1,7 +1,11 @@
 package com.xiaohu.demo.controller;
 
+import com.xiaohu.demo.domain.user.User;
+import com.xiaohu.demo.service.admin.menu.IMenuService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -14,8 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
+    @Autowired
+    private IMenuService menuService;
+
     @RequestMapping("/home")
-    public String toHome(){
-        return "home";
+    public ModelAndView toHome(){
+        ModelAndView modelAndView = new ModelAndView("home");
+        modelAndView.addObject("menus",menuService.getData(new User()));
+        return modelAndView;
     }
 }

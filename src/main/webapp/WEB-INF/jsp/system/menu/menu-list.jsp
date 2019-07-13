@@ -23,12 +23,15 @@
 <script>
 
     $(function() {
+        var index = layer.load(2, {time: 10*1000}); //又换了种风格，并且设定最长等待10秒
         layui.use('tree', function(){
             $.ajax({
                 url:"${path}/menu/menuData",
                 dataType:"json",
                 success:function(menu) {
-                    var tree = layui.tree;
+                 //关闭
+                layer.close(index);
+                var tree = layui.tree;
                     //渲染
                     var inst1 = tree.render({
                         elem: '#test1', //绑定元素
@@ -40,7 +43,10 @@
                             // console.log(obj.state); //得到当前节点的展开状态：open、close、normal
                             // console.log(obj.elem); //得到当前节点元素
                             //
-                            // console.log(obj.data.children); //当前节点下是否有子节点
+                            // console.log(obj.data.children.length); //当前节点下是否有子节点
+                            // if (obj.data.children.length != 0){
+                            //         return;
+                            //     }
                             layer.open({
                                 type: 2,
                                 anim: 1, //默认动画风格
@@ -49,7 +55,7 @@
                                 skin: 'layui-layer-molv', //默认皮肤
                                 content: ['${path}/menu/toMenuEditPage?id='+obj.data.id,'yes'] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
                             });
-                                                },
+                },
                         operate: function(obj){
                             var type = obj.type; //得到操作类型：add、edit、del
                             var data = obj.data; //得到当前节点的数据
@@ -58,33 +64,40 @@
                             var id = data.id; //得到节点索引
                             if(type === 'add'){ //增加节点
                                 //返回 key 值
+                                console.log(id)
                                 $.ajax({
-                                    url:"${path}/menu/add?id="+id,
+                                    url:"${path}/menu/add?pid="+id,
                                     dataType:"json",
                                     success:function(menu) {
-
+                                        return menu.id;
                                      }
                                 });
-                                return 123;
+                                console.log(id)
                             } else if(type === 'update'){ //修改节点
                                 $.ajax({
                                     url:"${path}/menu/update",
                                     dataType:"json",
+                                    data:{"id":id,"title":data.title},
                                     success:function(menu) {
 
                                      }
                                 });
                                 console.log(elem.find('.layui-tree-txt').html()); //得到修改后的内容
-                                console.log(type)
+                                console.log(id)
                             } else if(type === 'del'){ //删除节点
-                                $.ajax({
-                                    url:"${path}/menu/del",
-                                    dataType:"json",
-                                    success:function(menu) {
+                                    //eg1
+                                    layer.confirm('确认删除菜单节点？', {icon: 7, title:'删除节点'}, function(index){
+                                        $.ajax({
+                                            url:"${path}/menu/del?id="+id,
+                                            dataType:"json",
+                                            success:function(menu) {
 
-                                    }
-                                });
-                                console.log(type)
+                                            }
+                                        });
+
+                                    layer.close(index);
+                                    });
+
                             };
                         }
                     });

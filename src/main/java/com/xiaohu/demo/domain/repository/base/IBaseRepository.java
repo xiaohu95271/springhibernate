@@ -111,26 +111,26 @@ public interface IBaseRepository<M extends Serializable, PK extends Serializable
 	 */
 	public List<M> findList(String hql, Object[] values);
 //
-//	/*****************************************************************
-//	 * 常用分页
-//	 *
-//	 * @author laizhengyu
-//	 * @param hql
-//	 * @param values
-//	 * @param orderBy
-//	 * @return
-//	 */
-//	public PageBean<M> queryPage(String hql, String orderBy, Object[] values);
+	/*****************************************************************
+	 * 常用分页
+	 *
+	 * @author laizhengyu
+	 * @param hql
+	 * @param values
+	 * @param orderBy
+	 * @return
+	 */
+	public PageBean<M> queryPage(String hql, String orderBy, Object[] values);
 
-//	/*****************************************************************
-//	 * sql分页
-//	 *
-//	 * @param sql
-//	 * @param values
-//	 * @return
-//	 */
-//	public PageBean<Map<String, Object>> queryPageBySql(String sql,
-//			Object[] values);
+	/*****************************************************************
+	 * sql分页
+	 *
+	 * @param sql
+	 * @param values
+	 * @return
+	 */
+	public PageBean<Map<String, Object>> queryPageBySql(String sql,
+			Object[] values);
 
 	/*****************************************************************
 	 * 查找信息
@@ -149,20 +149,20 @@ public interface IBaseRepository<M extends Serializable, PK extends Serializable
 	public PageBean<M> queryPage(PageBean<M> bean, String hql, String orderBy,
 								 Object[] values);
 //
-//	public PageBean<M> queryPage(PageBean<M> bean, String hql, String countHql,
-//			String orderBy, Object[] values);
-//
-//	public PageBean<M> pageNoCountParam(PageBean<M> bean, String hql,
-//			String countHql, String orderBy, Object[] values);
-//
-//	public PageBean<M> pageNoCountParamForArray(PageBean<M> bean, String hql,
-//			String countHql, String orderBy, Object[] values);
-//
-//	public PageBean<M> queryPageArray(PageBean<M> bean, String hql,
-//			String orderBy, Object[] values);
-//
-//	public PageBean<M> queryPageArray(PageBean<M> bean, String hql,
-//			String countHql, String orderBy, Object[] values);
+	public PageBean<M> queryPage(PageBean<M> bean, String hql, String countHql,
+			String orderBy, Object[] values);
+
+	public PageBean<M> pageNoCountParam(PageBean<M> bean, String hql,
+			String countHql, String orderBy, Object[] values);
+
+	public PageBean<M> pageNoCountParamForArray(PageBean<M> bean, String hql,
+			String countHql, String orderBy, Object[] values);
+
+	public PageBean<M> queryPageArray(PageBean<M> bean, String hql,
+			String orderBy, Object[] values);
+
+	public PageBean<M> queryPageArray(PageBean<M> bean, String hql,
+			String countHql, String orderBy, Object[] values);
 
 	public Query wrapperQuery(Query query, Object[] params);
 

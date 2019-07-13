@@ -1,6 +1,7 @@
 package com.xiaohu.demo.domain.repository.base.impl;
 
 import com.xiaohu.demo.common.page.PageBean;
+import com.xiaohu.demo.common.page.PageUtil;
 import com.xiaohu.demo.domain.repository.base.IBaseRepository;
 import com.xiaohu.demo.domain.repository.common.Judge;
 import org.hibernate.SQLQuery;
@@ -197,38 +198,39 @@ public class BaseRepositoryImpl<M extends Serializable, PK extends Serializable>
 		return Long.parseLong(query.uniqueResult().toString());
 	}
 
-//	/*****************************************************************
-//	 * 常用分页
-//	 *
-//	 * @author laizhengyu
-//	 * @param hql
-//	 * @param values
-//	 * @param orderBy
-//	 * @return
-//	 */
-//	@SuppressWarnings("unchecked")
-//	public PageBean<M> queryPage(String hql, String orderBy, Object[] values) {
-//
-//		PageBean<M> bean = new PageBean<M>();
-//		bean.setPage(PageUtil.getPageNo());
-//		bean.setRows(PageUtil.getPageSize());
-//
-//		Long count = count(hql, values);
-//		bean.setAllCount(count);
-//
-//		if (!Judge.isEmpty(orderBy)) {
-//			hql += orderBy;
-//		}
-//
-//		Query query = this.getGenericSession().createQuery(hql);
-//		wrapperQuery(query, values);
-//		query.setFirstResult((bean.getPage() - 1) * bean.getRows());
-//		query.setMaxResults(bean.getRows());
-//
-//		bean.setResult(query.list());
-//
-//		return bean;
-//	}
+	/*****************************************************************
+	 * 常用分页
+	 *
+	 * @author laizhengyu
+	 * @param hql
+	 * @param values
+	 * @param orderBy
+	 * @return
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public PageBean<M> queryPage(String hql, String orderBy, Object[] values) {
+
+		PageBean<M> bean = new PageBean<M>();
+		bean.setPage(PageUtil.getPageNo());
+		bean.setRows(PageUtil.getPageSize());
+
+		Long count = count(hql, values);
+		bean.setAllCount(count);
+
+		if (!Judge.isEmpty(orderBy)) {
+			hql += orderBy;
+		}
+
+		Query query = this.getGenericSession().createQuery(hql);
+		wrapperQuery(query, values);
+		query.setFirstResult((bean.getPage() - 1) * bean.getRows());
+		query.setMaxResults(bean.getRows());
+
+		bean.setResult(query.list());
+
+		return bean;
+	}
 
 	/*****************************************************************
 	 * 执行sql
@@ -324,30 +326,31 @@ public class BaseRepositoryImpl<M extends Serializable, PK extends Serializable>
 		return this.jdbcTemplate.queryForList(pageSql);
 	}
 
-//	/*****************************************************************
-//	 * sql分页
-//	 *
-//	 * @param sql
-//	 * @param values
-//	 * @return
-//	 */
-//	public PageBean<Map<String, Object>> queryPageBySql(String sql,
-//			Object[] values) {
-//
-//		// 在这里从PageUtil里面来拿pageNo,pageSize
-//		PageBean<Map<String, Object>> bean = new PageBean<Map<String, Object>>();
-//		bean.setPage(PageUtil.getPageNo());
-//		bean.setRows(PageUtil.getPageSize());
-//
-//		Long countTotal = this.getCountBySql(sql, values);
-//		bean.setAllCount(countTotal);
-//
-//		String pageSql = this.toMysqlPageSql(sql, bean.getRows(),
-//				(bean.getPage() - 1) * bean.getRows());
-//		bean.setResult(this.jdbcTemplate.queryForList(pageSql, values));
-//
-//		return bean;
-//	}
+	/*****************************************************************
+	 * sql分页
+	 *
+	 * @param sql
+	 * @param values
+	 * @return
+	 */
+	@Override
+	public PageBean<Map<String, Object>> queryPageBySql(String sql,
+														Object[] values) {
+
+		// 在这里从PageUtil里面来拿pageNo,pageSize
+		PageBean<Map<String, Object>> bean = new PageBean<Map<String, Object>>();
+		bean.setPage(PageUtil.getPageNo());
+		bean.setRows(PageUtil.getPageSize());
+
+		Long countTotal = this.getCountBySql(sql, values);
+		bean.setAllCount(countTotal);
+
+		String pageSql = this.toMysqlPageSql(sql, bean.getRows(),
+				(bean.getPage() - 1) * bean.getRows());
+		bean.setResult(this.jdbcTemplate.queryForList(pageSql, values));
+
+		return bean;
+	}
 
 	/*****************************************************************
 	 * 查找信息
@@ -377,23 +380,6 @@ public class BaseRepositoryImpl<M extends Serializable, PK extends Serializable>
 		return  this.jdbcTemplate.queryForList(sql, values, Object.class);
 	}
 
-	@Override
-	public PageBean<M> queryPage(PageBean<M> bean, String hql, String orderBy, Object[] values) {
-		Long count = count(hql, values);
-		bean.setAllCount(count);
-
-		if (!Judge.isEmpty(orderBy)) {
-			hql += orderBy;
-		}
-		org.hibernate.Query query = this.getGenericSession().createQuery(hql);
-		wrapperQuery((Query) query, values);
-		query.setFirstResult((bean.getPage() - 1) * bean.getRows());
-		query.setMaxResults(bean.getRows());
-
-		bean.setResult(query.list());
-		return bean;
-	}
-
 
 	/*****************************************************************
 	 * 输出日志
@@ -410,86 +396,86 @@ public class BaseRepositoryImpl<M extends Serializable, PK extends Serializable>
 		}
 	}
 
-//	@SuppressWarnings("unchecked")
-//	@Override
-//	public PageBean<M> queryPage(PageBean<M> bean, String hql, String orderBy,
-//			Object[] values) {
-//
-//		Long count = count(hql, values);
-//		bean.setAllCount(count);
-//
-//		if (!Judge.isEmpty(orderBy)) {
-//			hql += orderBy;
-//		}
-//		Query query = this.getGenericSession().createQuery(hql);
-//		wrapperQuery(query, values);
-//		query.setFirstResult((bean.getPage() - 1) * bean.getRows());
-//		query.setMaxResults(bean.getRows());
-//
-//		bean.setResult(query.list());
-//		return bean;
-//	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public PageBean<M> queryPage(PageBean<M> bean, String hql, String orderBy,
+			Object[] values) {
 
-//	@SuppressWarnings("unchecked")
-//	@Override
-//	public PageBean<M> queryPage(PageBean<M> bean, String hql, String countHql,
-//			String orderBy, Object[] values) {
-//		Long count = countByHQL(countHql, values);
-//		bean.setAllCount(count);
-//		if (count > 0) {
-//			if (!Judge.isEmpty(orderBy)) {
-//				hql += orderBy;
-//			}
-//			Query query = this.getGenericSession().createQuery(hql);
-//			wrapperQuery(query, values);
-//			query.setFirstResult((bean.getPage() - 1) * bean.getRows());
-//			query.setMaxResults(bean.getRows());
-//
-//			bean.setResult(query.list());
-//		}
-//		return bean;
-//	}
-//
-//	@SuppressWarnings("unchecked")
-//	@Override
-//	public PageBean<M> queryPageArray(PageBean<M> bean, String hql,
-//			String orderBy, Object[] values) {
-//
-//		Long count = count(hql, values);
-//		bean.setAllCount(count);
-//
-//		if (!Judge.isEmpty(orderBy)) {
-//			hql += orderBy;
-//		}
-//		Query query = this.getGenericSession().createQuery(hql);
-//		wrapperQuery(query, values);
-//		query.setFirstResult((bean.getPage() - 1) * bean.getRows());
-//		query.setMaxResults(bean.getRows());
-//
-//		bean.setResultArray(query.list());
-//
-//		return bean;
-//	}
-//
-//	@SuppressWarnings("unchecked")
-//	@Override
-//	public PageBean<M> queryPageArray(PageBean<M> bean, String hql,
-//			String countHql, String orderBy, Object[] values) {
-//		Long count = countByHQL(countHql, values);
-//		bean.setAllCount(count);
-//
-//		if (!Judge.isEmpty(orderBy)) {
-//			hql += orderBy;
-//		}
-//		Query query = this.getGenericSession().createQuery(hql);
-//		wrapperQuery(query, values);
-//		query.setFirstResult((bean.getPage() - 1) * bean.getRows());
-//		query.setMaxResults(bean.getRows());
-//
-//		bean.setResultArray(query.list());
-//
-//		return bean;
-//	}
+		Long count = count(hql, values);
+		bean.setAllCount(count);
+
+		if (!Judge.isEmpty(orderBy)) {
+			hql += orderBy;
+		}
+		Query query = this.getGenericSession().createQuery(hql);
+		wrapperQuery(query, values);
+		query.setFirstResult((bean.getPage() - 1) * bean.getRows());
+		query.setMaxResults(bean.getRows());
+
+		bean.setResult(query.list());
+		return bean;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public PageBean<M> queryPage(PageBean<M> bean, String hql, String countHql,
+			String orderBy, Object[] values) {
+		Long count = countByHQL(countHql, values);
+		bean.setAllCount(count);
+		if (count > 0) {
+			if (!Judge.isEmpty(orderBy)) {
+				hql += orderBy;
+			}
+			Query query = this.getGenericSession().createQuery(hql);
+			wrapperQuery(query, values);
+			query.setFirstResult((bean.getPage() - 1) * bean.getRows());
+			query.setMaxResults(bean.getRows());
+
+			bean.setResult(query.list());
+		}
+		return bean;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public PageBean<M> queryPageArray(PageBean<M> bean, String hql,
+			String orderBy, Object[] values) {
+
+		Long count = count(hql, values);
+		bean.setAllCount(count);
+
+		if (!Judge.isEmpty(orderBy)) {
+			hql += orderBy;
+		}
+		Query query = this.getGenericSession().createQuery(hql);
+		wrapperQuery(query, values);
+		query.setFirstResult((bean.getPage() - 1) * bean.getRows());
+		query.setMaxResults(bean.getRows());
+
+		bean.setResultArray(query.list());
+
+		return bean;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public PageBean<M> queryPageArray(PageBean<M> bean, String hql,
+			String countHql, String orderBy, Object[] values) {
+		Long count = countByHQL(countHql, values);
+		bean.setAllCount(count);
+
+		if (!Judge.isEmpty(orderBy)) {
+			hql += orderBy;
+		}
+		Query query = this.getGenericSession().createQuery(hql);
+		wrapperQuery(query, values);
+		query.setFirstResult((bean.getPage() - 1) * bean.getRows());
+		query.setMaxResults(bean.getRows());
+
+		bean.setResultArray(query.list());
+
+		return bean;
+	}
 
 	@Override
 	public Query wrapperQuery(Query query, Object[] params) {
@@ -569,45 +555,45 @@ public class BaseRepositoryImpl<M extends Serializable, PK extends Serializable>
 		return query.list();
 	}
 //
-//	@SuppressWarnings("unchecked")
-//	@Override
-//	public PageBean<M> pageNoCountParamForArray(PageBean<M> bean, String hql,
-//			String countHql, String orderBy, Object[] values) {
-//		Long count = countByHQL(countHql);
-//		bean.setAllCount(count);
-//
-//		if (!Judge.isEmpty(orderBy)) {
-//			hql += orderBy;
-//		}
-//		Query query = this.getGenericSession().createQuery(hql);
-//		wrapperQuery(query, values);
-//		query.setFirstResult((bean.getPage() - 1) * bean.getRows());
-//		query.setMaxResults(bean.getRows());
-//
-//		bean.setResultArray(query.list());
-//
-//		return bean;
-//	}
-//
-//	@SuppressWarnings("unchecked")
-//	@Override
-//	public PageBean<M> pageNoCountParam(PageBean<M> bean, String hql,
-//			String countHql, String orderBy, Object[] values) {
-//		Long count = countByHQL(countHql);
-//		bean.setAllCount(count);
-//
-//		if (!Judge.isEmpty(orderBy)) {
-//			hql += orderBy;
-//		}
-//		Query query = this.getGenericSession().createQuery(hql);
-//		wrapperQuery(query, values);
-//		query.setFirstResult((bean.getPage() - 1) * bean.getRows());
-//		query.setMaxResults(bean.getRows());
-//
-//		bean.setResult(query.list());
-//
-//		return bean;
-//	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public PageBean<M> pageNoCountParamForArray(PageBean<M> bean, String hql,
+			String countHql, String orderBy, Object[] values) {
+		Long count = countByHQL(countHql);
+		bean.setAllCount(count);
+
+		if (!Judge.isEmpty(orderBy)) {
+			hql += orderBy;
+		}
+		Query query = this.getGenericSession().createQuery(hql);
+		wrapperQuery(query, values);
+		query.setFirstResult((bean.getPage() - 1) * bean.getRows());
+		query.setMaxResults(bean.getRows());
+
+		bean.setResultArray(query.list());
+
+		return bean;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public PageBean<M> pageNoCountParam(PageBean<M> bean, String hql,
+			String countHql, String orderBy, Object[] values) {
+		Long count = countByHQL(countHql);
+		bean.setAllCount(count);
+
+		if (!Judge.isEmpty(orderBy)) {
+			hql += orderBy;
+		}
+		Query query = this.getGenericSession().createQuery(hql);
+		wrapperQuery(query, values);
+		query.setFirstResult((bean.getPage() - 1) * bean.getRows());
+		query.setMaxResults(bean.getRows());
+
+		bean.setResult(query.list());
+
+		return bean;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
