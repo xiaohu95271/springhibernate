@@ -9,6 +9,8 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 用户信息表
@@ -18,7 +20,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "common_user")
 @Data
-public class User extends BaseVO implements Serializable {
+public class User extends BaseVO {
 
 	/**
 	 *  用户帐号
@@ -58,13 +60,20 @@ public class User extends BaseVO implements Serializable {
 	 */
 	private String companyId;
 
-//	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-//	@JoinTable(name = "common_user_role", joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "role_id", referencedColumnName = "id") })
-//	private Set<Role> roles = new HashSet<Role>();  //用户角色
-	
-//	//------------临时变量-----------------------
-//	@Transient
-//	private Role role;
+	/**
+	 * 用户角色
+	 */
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@JoinTable(name = "common_user_role", joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") },
+			inverseJoinColumns = { @JoinColumn(name = "role_id", referencedColumnName = "id") })
+	private Set<Role> roles = new HashSet<Role>();
+
+
+	/**
+	 * 临时变量
+	 */
+	@Transient
+	private Role role;
 
 
 }

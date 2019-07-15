@@ -115,7 +115,7 @@
 <%--            </div>--%>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                    <button class="layui-btn" onclick="subData()" lay-submit lay-filter="formDemo">立即提交</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
@@ -127,22 +127,28 @@
             form.render();
         });
 
+    //
+    // $("#formData").submit(function () {
+    //    $(this).ajaxSubmit(ajaxFormOption);
+    //     return true;
+    // });
 
-    $("#formData").submit(function () {
-       $(this).ajaxSubmit(ajaxFormOption);
-        return true;
-    });
+    function subData() {
+        $.ajax({
+            type: "post",  //提交方式
+            dataType: "json", //数据类型
+            data: $("#formData").serialize(),//自定义数据参数，视情况添加
+            url: "${path}/menu/add", //请求url
+            success: function (data) { //提交成功的回调函数
+                layer.msg('添加成功', {icon: 6,time: 5000});
+                window.parent.layer.closeAll()
+            }
+        })
 
-    var ajaxFormOption = {
-        type: "post",  //提交方式
-        dataType: "json", //数据类型
-        data: $("#formData").serialize(),//自定义数据参数，视情况添加
-        url: "${path}/menu/add", //请求url
-        success: function (data) { //提交成功的回调函数
-            layer.msg('添加成功', {icon: 6,time: 5000});
-            window.parent.layer.closeAll()
-        }
-    };
+    }
+    // var ajaxFormOption = {
+    //
+    // };
  </script>
 </body>
 </html>

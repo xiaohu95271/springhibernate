@@ -71,7 +71,8 @@ public class MenuController {
     @ResponseBody
     public  List<MenuResult> menuData(){
         List<Menu> menus = menuService.getData(new User());
-        return MenuResultUtil.menuResults(menus,null,null);
+        List<MenuResult> menuResults = MenuResultUtil.menuResults(menus, "", null);
+        return menuResults;
     }
 
     /**

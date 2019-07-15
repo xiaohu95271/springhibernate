@@ -1,7 +1,10 @@
 package com.xiaohu.demo.controller.user;
 
+import com.xiaohu.demo.common.page.LayuiPageResult;
 import com.xiaohu.demo.common.page.PageBean;
+import com.xiaohu.demo.domain.user.Role;
 import com.xiaohu.demo.domain.user.User;
+import com.xiaohu.demo.service.admin.menu.IRoleService;
 import com.xiaohu.demo.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +28,8 @@ public class UserController {
 
     @Autowired
     private IUserService userService;
+    @Autowired
+    private IRoleService roleService;
 //
 //    @RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 //    public String homePage(ModelMap model) {
@@ -85,10 +90,20 @@ public class UserController {
     @RequestMapping(value = "/userList")
     public ModelAndView userList(User user) {
         ModelAndView view = new ModelAndView();
-
-        userService.saveTest();
-
         view.setViewName("user/user-list");
+        return view;
+    }
+
+
+    /**
+     * 用户列表页面跳转
+     *
+     * @return map
+     */
+    @RequestMapping(value = "/pageRole")
+    public ModelAndView pageRole(User user) {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("user/role-list");
         return view;
     }
 
@@ -101,14 +116,10 @@ public class UserController {
      */
     @RequestMapping(value = "/userDate")
     @ResponseBody
-    public Map<String,Object> userDate(User user,Integer page,Integer limit) {
-        Map<String,Object> map = new HashMap<>();
+    public LayuiPageResult userDate(User user,Integer page,Integer limit) {
         PageBean<User> list = userService.queryList(user,page,limit);
-        map.put("code",0);
-        map.put("data",list.getResult());
-        map.put("count",list.getAllCount());
-        map.put("msg","");
-        return map;
+        LayuiPageResult layuiPageResult = new LayuiPageResult(0,list.getResult(),list.getAllCount());
+        return layuiPageResult;
     }
 
     /**
@@ -124,6 +135,19 @@ public class UserController {
         userService.save(user);
         map.put("code", 0);
         return map;
+    }
+
+    /**
+     * 添加用户
+     *
+     * @param role 实体
+     * @return
+     */
+    @RequestMapping(value = "/roleList", method = RequestMethod.GET)
+    @ResponseBody
+    public LayuiPageResult roleList(Role role,Integer page,Integer limit) {
+        LayuiPageResult result = roleService.getPage(new User(),role);
+        return result;
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)

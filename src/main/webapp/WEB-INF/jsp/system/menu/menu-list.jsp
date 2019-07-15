@@ -74,6 +74,7 @@
                                 });
                                 console.log(id)
                             } else if(type === 'update'){ //修改节点
+                                debugger
                                 $.ajax({
                                     url:"${path}/menu/update",
                                     dataType:"json",

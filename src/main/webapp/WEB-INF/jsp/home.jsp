@@ -20,6 +20,7 @@
     <%@include file="/WEB-INF/jsp/common/import.jsp" %>
     <link rel="stylesheet" href="${path}/resource/css/admin.css" media="all">
     <script type="text/javascript" src="${path}/config.js"></script>
+    <%--<script type="text/javascript" src="${path}/lib/index.js"></script>--%>
     <script>
         /^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
     </script>
@@ -171,7 +172,7 @@
         <!-- 主体内容 -->
         <div class="layui-body" id="LAY_app_body">
             <div class="layadmin-tabsbody-item layui-show">
-                <iframe src="${path}/home" frameborder="0" class="layadmin-iframe"></iframe>
+                <iframe src="${path}/index" frameborder="0" class="layadmin-iframe"></iframe>
             </div>
         </div>
 

@@ -1,10 +1,17 @@
 package com.xiaohu.demo.domain.system.menu;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xiaohu.demo.domain.BaseVO;
+import com.xiaohu.demo.domain.user.Role;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 菜单实体类
@@ -40,4 +47,22 @@ public class Menu extends BaseVO {
      * 排序
      */
     private Integer orderNumber;
+
+    /**
+     * 角色列表
+     */
+    @ManyToMany(mappedBy = "menus")
+    @JsonIgnore
+    private Set<Role> roles;
+
+    /**
+     * 辅助
+     */
+    @Transient
+    private List<Menu> children = new ArrayList<Menu>();
+
+
+    @Transient
+    @JsonIgnore
+    private Menu parentMenu;
 }
