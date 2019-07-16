@@ -91,12 +91,12 @@
         url: '${path}/menu/menuData',
         required: true,
         multiple: true,
-        onChange :function(val,result){
-            console.log(val)
-            console.log(result)
-            $("#treeSelect").val("402881866be8e82b016be9054dac0007");
+        onLoadSuccess: function (node, data) {
+            console.log(node)
+            console.log(data)
+                $('#treeSelect').combotree('setValue', { id: "1", text: "首页" });
 
-        },
+        }
     });
 
 </script>
