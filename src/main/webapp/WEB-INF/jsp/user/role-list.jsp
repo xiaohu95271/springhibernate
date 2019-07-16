@@ -105,7 +105,7 @@
                         type: 2,
                         //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
                         content: '${path}/user/roleAdd',
-                        area: ['500px', '300px']
+                        area: ['650px', '450px']
                     })
                     break;
                 case 'update':

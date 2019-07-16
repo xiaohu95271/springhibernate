@@ -1,5 +1,6 @@
 package com.xiaohu.demo.controller.user;
 
+import com.xiaohu.demo.common.BaseResult;
 import com.xiaohu.demo.common.page.LayuiPageResult;
 import com.xiaohu.demo.common.page.PageBean;
 import com.xiaohu.demo.domain.user.Role;
@@ -123,6 +124,17 @@ public class UserController {
 
     /**
      * 用户列表页面跳转
+     * @param role 实体
+     * @return map
+     */
+    @RequestMapping(value = "/roleAddData")
+    @ResponseBody
+    public BaseResult roleAdd(Role role,String[] menuId) {
+        roleService.saveRole(role,menuId,new User());
+        return BaseResult.success();
+    }
+ /**
+     * 用户列表页面跳转
      * @param page 当前页
      * @param limit 显示条数
      * @return map
@@ -159,7 +171,10 @@ public class UserController {
     @RequestMapping(value = "/roleList", method = RequestMethod.GET)
     @ResponseBody
     public LayuiPageResult roleList(Role role,Integer page,Integer limit) {
-        LayuiPageResult result = roleService.getPage(new User(),role);
+        PageBean<Role> bean = new PageBean<>();
+        bean.setPage(page);
+        bean.setRows(limit);
+        LayuiPageResult result = roleService.getPage(new User(),role,bean);
         return result;
     }
 
@@ -170,8 +185,7 @@ public class UserController {
     }
 
     private String getPrincipal() {
-        String userName = null;
 
-        return userName;
+        return null;
     }
 }
