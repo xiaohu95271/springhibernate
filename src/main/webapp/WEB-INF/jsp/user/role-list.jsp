@@ -101,7 +101,12 @@
                 , data = checkStatus.data; //获取选中的数据
             switch (obj.event) {
                 case 'add':
-                    layer.msg('添加');
+                    layer.open({
+                        type: 2,
+                        //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                        content: '${path}/user/roleAdd',
+                        area: ['500px', '300px']
+                    })
                     break;
                 case 'update':
                     if (data.length === 0) {

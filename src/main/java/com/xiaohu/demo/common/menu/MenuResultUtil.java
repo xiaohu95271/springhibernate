@@ -7,6 +7,11 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ *  工具
+ *  菜单返回数据封装
+ * @author hu
+ */
 public class MenuResultUtil {
 
     /**
@@ -24,6 +29,7 @@ public class MenuResultUtil {
                 menuResult.setId(menu.getId());
                 menuResult.setHref(menu.getHref());
                 menuResult.setTitle(menu.getName());
+                menuResult.setText(menu.getName());
                 results.add(menuResult);
                 menuResults(menus,menu.getId(),menuResult);
             }

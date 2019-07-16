@@ -16,12 +16,14 @@ import java.util.List;
  * spread	节点是否初始展开，默认 false	                        Boolean	                true
  * checked	节点是否初始为选中状态（如果开启复选框的话），默认 false	Boolean             	true
  * disabled 节点是否为禁用状态。默认 false
+ * @author hu
  */
 @Data
 public class MenuResult {
 
 
     private String title;
+    private String text;
     private String id;
     private List<MenuResult> children;
     private String href;

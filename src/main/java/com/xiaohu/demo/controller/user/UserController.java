@@ -88,15 +88,28 @@ public class UserController {
      * @return map
      */
     @RequestMapping(value = "/userList")
-    public ModelAndView userList(User user) {
+    public ModelAndView userList() {
         ModelAndView view = new ModelAndView();
         view.setViewName("user/user-list");
         return view;
     }
 
 
+
+     /**
+     * 添加角色列表页面跳转
+     *
+     * @return map
+     */
+    @RequestMapping(value = "/roleAdd")
+    public ModelAndView roleAdd( ) {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("user/role-add");
+        return view;
+    }
+
     /**
-     * 用户列表页面跳转
+     * 角色列表页面跳转
      *
      * @return map
      */
