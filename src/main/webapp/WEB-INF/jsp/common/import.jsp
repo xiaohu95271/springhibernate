@@ -41,4 +41,25 @@
             ,form = layui.form;
 
     });
+
+    /**
+     * 弹出层的添加方法
+     * @param data 提交数据
+     * @param url 提交url
+     * @param backUrl 成功跳转url
+     */
+    function submitForm(data,url,backUrl) {
+        var index = layer.load(2, {time: 100*1000}); //又换了种风格，并且设定最长等待10秒
+        $.ajax({
+            type: "post",  //提交方式
+            dataType: "json", //数据类型
+            data:data,//自定义数据参数，视情况添加
+            url: url, //请求url
+            success: function (data) { //提交成功的回调函数
+                layer.closeAll('loading');
+                layer.msg('添加成功', {icon: 6,time: 5000});
+                layer.closeAll('iframe');
+            }
+        })
+    }
 </script>

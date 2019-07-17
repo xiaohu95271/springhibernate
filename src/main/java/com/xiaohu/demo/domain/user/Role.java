@@ -16,6 +16,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xiaohu.demo.domain.BaseVO;
 import com.xiaohu.demo.domain.system.menu.Menu;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import net.bytebuddy.implementation.bind.annotation.SuperCall;
 
 /**
  *  角色实体表
@@ -48,12 +50,12 @@ public class Role extends BaseVO {
 	@JsonIgnore
 	private Set<User> users;
 
+
 	/**
 	 * 菜单列表
 	 */
-	@ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
 	@JoinTable(name = "common_role_menu", joinColumns = { @JoinColumn(name = "role_id",referencedColumnName = "id")}, inverseJoinColumns = { @JoinColumn(name = "menu_id",referencedColumnName = "id")})
-	@JsonIgnore
+	@ManyToMany(cascade = CascadeType.PERSIST)
+		@JsonIgnore
 	private Set<Menu> menus;
-	
 }
