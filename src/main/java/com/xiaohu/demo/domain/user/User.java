@@ -19,7 +19,6 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "common_user")
-@Data
 public class User extends BaseVO {
 
 	/**
@@ -75,5 +74,91 @@ public class User extends BaseVO {
 	@Transient
 	private Role role;
 
+	public String getUserCode() {
+		return userCode;
+	}
 
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
+	public String getLastLoginTime() {
+		return lastLoginTime;
+	}
+
+	public void setLastLoginTime(String lastLoginTime) {
+		this.lastLoginTime = lastLoginTime;
+	}
+
+	public String getHeadimg() {
+		return headimg;
+	}
+
+	public void setHeadimg(String headimg) {
+		this.headimg = headimg;
+	}
+
+	public String getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
 }

@@ -36,6 +36,7 @@ public class BaseRepositoryImpl<M extends Serializable, PK extends Serializable>
 		super.setSessionFactory(sessionFactory);
 	}
 
+	@Override
 	public Session getGenericSession() {
 		return getSessionFactory().getCurrentSession();
 	}

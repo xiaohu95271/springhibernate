@@ -8,6 +8,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -17,7 +18,6 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "sys_menu")
-@Data
 public class Menu extends BaseVO {
 
     /**
@@ -62,4 +62,98 @@ public class Menu extends BaseVO {
     @Transient
     @JsonIgnore
     private Menu parentMenu;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
+
+    public String getHref() {
+        return href;
+    }
+
+    public void setHref(String href) {
+        this.href = href;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Integer getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(Integer orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public List<Menu> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Menu> children) {
+        this.children = children;
+    }
+
+    public Menu getParentMenu() {
+        return parentMenu;
+    }
+
+    public void setParentMenu(Menu parentMenu) {
+        this.parentMenu = parentMenu;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {return true;}
+        if (o == null || getClass() != o.getClass()) {return false;}
+        if (!super.equals(o)) {return false;}
+        Menu menu = (Menu) o;
+        return Objects.equals(name, menu.name) &&
+                Objects.equals(icon, menu.icon) &&
+                Objects.equals(pid, menu.pid) &&
+                Objects.equals(href, menu.href) &&
+                Objects.equals(remark, menu.remark) &&
+                Objects.equals(orderNumber, menu.orderNumber) &&
+                Objects.equals(roles, menu.roles) &&
+                Objects.equals(children, menu.children) &&
+                Objects.equals(parentMenu, menu.parentMenu);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), name, icon, pid, href, remark, orderNumber, roles, children, parentMenu);
+    }
 }

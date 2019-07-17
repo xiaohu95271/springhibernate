@@ -35,4 +35,11 @@ public interface IMenuService extends IBaseService<Menu,String> {
      * @return
      */
     List<Menu> getData(User user);
+
+    /**
+     * 根据role id获取 菜单
+     * @param id 角色id
+     * @return
+     */
+    List<Menu> getByRoleId(String id);
 }

@@ -41,29 +41,30 @@
 <form class="layui-form" action="" id="dataForm">
 <div class="layui-form-item">
     <div class="layui-form-item">
-        <label class="layui-form-label">名称</label>
+        <label class="layui-form-label">名称：</label>
         <div class="layui-input-block">
-            <input type="text" name="nameZh" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+           ${role.nameZh}
+            <input type="hidden" name="id" required  value="${role.id}">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">标识</label>
+        <label class="layui-form-label">标识：</label>
         <div class="layui-input-block">
-            <input type="text" name="nameEn" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+            ${role.nameEn}
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">角色菜单</label>
+        <label class="layui-form-label">角色菜单：</label>
         <div class="layui-input-block">
-            <input type="text" name="menuId" required id="treeSelect"  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+            <input type="text" name="menuId" disabled required id="treeSelect"  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
         </div>
     </div>
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn" type="button" onclick="submitData()" lay-submit lay-filter="formDemo">立即提交</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-        </div>
-    </div>
+<%--    <div class="layui-form-item">--%>
+<%--        <div class="layui-input-block">--%>
+<%--            <button class="layui-btn" type="button" onclick="submitData()" lay-submit lay-filter="formDemo">立即提交</button>--%>
+<%--            <button type="reset" class="layui-btn layui-btn-primary">重置</button>--%>
+<%--        </div>--%>
+<%--    </div>--%>
 </div>
 
 </form>
@@ -85,7 +86,7 @@
 
         //监听提交
         form.on('submit(formDemo)', function(data){
-            submitForm($("#dataForm").serialize(),'${path}/user/roleAddData')
+            submitForm($("#dataForm").serialize(),'${path}/user/roleUpdateData')
             return false;
         });
     });
@@ -93,8 +94,12 @@
         url: '${path}/menu/menuData',
         required: true,
         multiple: true,
+        onLoadSuccess : function(node,data){
+            $("#treeSelect").combotree('setValue',${menus});
+        }
     });
 
+    console.log(${menus})
     function submitData() {
 
     }

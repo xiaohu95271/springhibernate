@@ -80,6 +80,53 @@
             ]]
         });
 
+        //监听工具条
+        table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+            if(layEvent === 'detail'){ //查看
+                //do somehing
+                layer.open({
+                    type: 2,
+                    //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                    content: '${path}/user/roleEdit?id='+data.id+"&type=1",
+                    area: ['650px', '500px'],
+                    end:function () {
+                        // tableIns.reload();
+                    }
+                })
+
+            } else if(layEvent === 'del'){ //删除
+                layer.confirm('真的删除行么', function(index){
+                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                    layer.close(index);
+                    $.ajax({
+                        "url":'${path}/user/roleDel',
+                        "data":{"id":data.id},
+                        "dataType":"json",
+                        "success":function (result) {
+                            layer.msg('删除成功');
+                            tableIns.reload();
+                        }
+                    })
+                });
+            } else if(layEvent === 'edit'){ //编辑
+                //do something
+                layer.open({
+                    type: 2,
+                    //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                    content: '${path}/user/roleEdit?id='+data.id,
+                    area: ['650px', '500px'],
+                    end:function () {
+                        // tableIns.reload();
+                    }
+                })
+            }
+        });
+
+
         //监听头工具栏事件
         table.on('toolbar(test)', function (obj) {
             var checkStatus = table.checkStatus(obj.config.id)
@@ -106,7 +153,7 @@
                             type: 2,
                             //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
                             content: '${path}/user/roleEdit?id='+data[0].id,
-                            area: ['650px', '450px'],
+                            area: ['650px', '500px'],
                             end:function () {
                                 // tableIns.reload();
                             }

@@ -48,4 +48,10 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu,String> implements IMe
         hql.append(" order by orderNumber desc ");
         return  this.query(hql.toString(),params.toArray());
     }
+
+    @Override
+    public List<Menu> getByRoleId(String id) {
+//        query("")
+        return null;
+    }
 }

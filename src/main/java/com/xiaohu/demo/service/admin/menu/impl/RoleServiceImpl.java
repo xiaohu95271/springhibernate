@@ -9,6 +9,7 @@ import com.xiaohu.demo.domain.user.User;
 import com.xiaohu.demo.service.admin.menu.IMenuService;
 import com.xiaohu.demo.service.admin.menu.IRoleService;
 import com.xiaohu.demo.service.base.impl.BaseServiceImpl;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,14 +41,23 @@ public class RoleServiceImpl extends BaseServiceImpl<Role,String> implements IRo
 
     @Override
     public void saveRole(Role role, String[] menuId, User user) {
-//        String save = save(role);
         Set<Menu> menus = new HashSet<>();
         for (String s : menuId) {
-//            baseRepository.saveRole(s,save);
             menus.add(menuService.get(s));
-//            baseRepository.excuteBySql("insert into common_role_menu value(?,?)",new Object[]{s,save});
         }
         role.setMenus(menus);
         save(role);
+    }
+
+    @Override
+    public void updateRole(Role role, String[] menuId, User user) {
+        Set<Menu> menus = new HashSet<>();
+        for (String s : menuId) {
+            menus.add(menuService.get(s));
+        }
+        role.setMenus(menus);
+        Session session = baseRepository.getGenericSession();
+        session.merge(role);
+        this.update(role);
     }
 }

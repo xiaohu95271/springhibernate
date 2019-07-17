@@ -24,7 +24,6 @@ import net.bytebuddy.implementation.bind.annotation.SuperCall;
  *
  * @author hu
  */
-@Data
 @Entity
 @Table(name = "common_role")
 public class Role extends BaseVO {
@@ -54,8 +53,39 @@ public class Role extends BaseVO {
 	/**
 	 * 菜单列表
 	 */
-//	@JoinTable(name = "common_role_menu", joinColumns = { @JoinColumn(name = "role_id",referencedColumnName = "id")}, inverseJoinColumns = { @JoinColumn(name = "menu_id",referencedColumnName = "id")})
-	@ManyToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<Menu> menus;
+
+	public String getNameEn() {
+		return nameEn;
+	}
+
+	public void setNameEn(String nameEn) {
+		this.nameEn = nameEn;
+	}
+
+	public String getNameZh() {
+		return nameZh;
+	}
+
+	public void setNameZh(String nameZh) {
+		this.nameZh = nameZh;
+	}
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
+
+	public Set<Menu> getMenus() {
+		return menus;
+	}
+
+	public void setMenus(Set<Menu> menus) {
+		this.menus = menus;
+	}
 }

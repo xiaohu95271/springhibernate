@@ -1,13 +1,16 @@
 package com.xiaohu.demo.controller.user;
 
+import com.xiaohu.demo.common.Assert;
 import com.xiaohu.demo.common.BaseResult;
 import com.xiaohu.demo.common.page.LayuiPageResult;
 import com.xiaohu.demo.common.page.PageBean;
 import com.xiaohu.demo.domain.system.menu.Menu;
 import com.xiaohu.demo.domain.user.Role;
 import com.xiaohu.demo.domain.user.User;
+import com.xiaohu.demo.service.admin.menu.IMenuService;
 import com.xiaohu.demo.service.admin.menu.IRoleService;
 import com.xiaohu.demo.service.user.IUserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -32,12 +35,9 @@ public class UserController {
     private IUserService userService;
     @Autowired
     private IRoleService roleService;
-//
-//    @RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
-//    public String homePage(ModelMap model) {
-//        model.addAttribute("greeting", "Hi, Welcome to mysite");
-//        return "welcome";
-//    }
+    @Autowired
+    private IMenuService menuService;
+
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String adminPage(ModelMap model) {
@@ -112,15 +112,31 @@ public class UserController {
 
 
      /**
-     * 添加角色列表页面跳转
+     * 修改角色列表页面跳转
      *
      * @return map
      */
     @RequestMapping(value = "/roleEdit")
-    public ModelAndView roleEdit(String id) {
+    public ModelAndView roleEdit(String id,String type) {
         ModelAndView view = new ModelAndView();
         Role role = roleService.get(id);
         view.addObject("role",role);
+        Set<Menu> menus = role.getMenus();
+
+        StringBuilder menuIdStr = new StringBuilder("[");
+        if (Assert.notEmpty(menus)) {
+            for (Menu menu : menus) {
+                menuIdStr.append( "\"" + menu.getId() + "\",");
+            }
+            menuIdStr = new StringBuilder(menuIdStr.substring(0, menuIdStr.lastIndexOf(",")));
+        }
+        menuIdStr.append( "]");
+
+        view.addObject("menus",menuIdStr);
+        if (StringUtils.isNotBlank(type) && StringUtils.equals(type,"1")){
+            view.setViewName("user/role-detail");
+            return view;
+        }
         view.setViewName("user/role-edit");
         return view;
     }
@@ -139,7 +155,7 @@ public class UserController {
 
 
     /**
-     * 用户列表页面跳转
+     * 添加角色
      * @param role 实体
      * @return map
      */
@@ -147,6 +163,17 @@ public class UserController {
     @ResponseBody
     public BaseResult roleAdd(Role role,String[] menuId) {
         roleService.saveRole(role,menuId,new User());
+        return BaseResult.success();
+    }
+    /**
+     * 修改角色
+     * @param role 实体
+     * @return map
+     */
+    @RequestMapping(value = "/roleUpdateData")
+    @ResponseBody
+    public BaseResult roleUpdateData(Role role,String[] menuId) {
+        roleService.updateRole(role,menuId,new User());
         return BaseResult.success();
     }
  /**

@@ -27,4 +27,11 @@ public interface IRoleService extends IBaseService<Role,String> {
      * @param user 用户实体
      */
     void saveRole(Role role, String[] menuId, User user);
+    /**
+     * 修改角色
+     * @param role 角色实体
+     * @param menuId 菜单id
+     * @param user 用户实体
+     */
+    void updateRole(Role role, String[] menuId, User user);
 }

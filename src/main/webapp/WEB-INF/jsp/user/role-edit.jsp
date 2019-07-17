@@ -42,6 +42,7 @@
         <label class="layui-form-label">名称</label>
         <div class="layui-input-block">
             <input type="text" name="nameZh" required  value="${role.nameZh}" lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+            <input type="hidden" name="id" required  value="${role.id}">
         </div>
     </div>
     <div class="layui-form-item">
@@ -83,7 +84,7 @@
 
         //监听提交
         form.on('submit(formDemo)', function(data){
-            submitForm($("#dataForm").serialize(),'${path}/user/roleAddData')
+            submitForm($("#dataForm").serialize(),'${path}/user/roleUpdateData')
             return false;
         });
     });
@@ -92,10 +93,11 @@
         required: true,
         multiple: true,
         onLoadSuccess : function(node,data){
-            $("#ct").combotree('setValue','$!{entity.EnvUnitCode}');
+            $("#treeSelect").combotree('setValue',${menus});
         }
     });
 
+    console.log(${menus})
     function submitData() {
 
     }

@@ -1,6 +1,7 @@
 package com.xiaohu.demo.domain.repository.base;
 
 import com.xiaohu.demo.common.page.PageBean;
+import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import java.io.Serializable;
@@ -30,7 +31,13 @@ public interface IBaseRepository<M extends Serializable, PK extends Serializable
 	public void saveOrUpdateAll(Collection<M> m) throws Exception;
 
 	public boolean excute(String hql, Object[] params);
-	
+
+
+	/**
+	 * 得到session
+	 * @return
+	 */
+	Session getGenericSession();
 	/*****************************************************************
 	 * 手动控制事务：
 	 * 		手动提交
