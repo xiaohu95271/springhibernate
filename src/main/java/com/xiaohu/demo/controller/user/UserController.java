@@ -3,6 +3,7 @@ package com.xiaohu.demo.controller.user;
 import com.xiaohu.demo.common.BaseResult;
 import com.xiaohu.demo.common.page.LayuiPageResult;
 import com.xiaohu.demo.common.page.PageBean;
+import com.xiaohu.demo.domain.system.menu.Menu;
 import com.xiaohu.demo.domain.user.Role;
 import com.xiaohu.demo.domain.user.User;
 import com.xiaohu.demo.service.admin.menu.IRoleService;
@@ -109,6 +110,21 @@ public class UserController {
         return view;
     }
 
+
+     /**
+     * 添加角色列表页面跳转
+     *
+     * @return map
+     */
+    @RequestMapping(value = "/roleEdit")
+    public ModelAndView roleEdit(String id) {
+        ModelAndView view = new ModelAndView();
+        Role role = roleService.get(id);
+        view.addObject("role",role);
+        view.setViewName("user/role-edit");
+        return view;
+    }
+
     /**
      * 角色列表页面跳转
      *
@@ -163,7 +179,7 @@ public class UserController {
     }
 
     /**
-     * 添加用户
+     * 角色列表
      *
      * @param role 实体
      * @return
@@ -176,6 +192,19 @@ public class UserController {
         bean.setRows(limit);
         LayuiPageResult result = roleService.getPage(new User(),role,bean);
         return result;
+    }
+
+    /**
+     * 删除角色
+     * 可以批量删除
+     * @param id id
+     * @return
+     */
+    @RequestMapping(value = "/roleDel", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult roleDel(String[] id) {
+        roleService.deleteByPK(id);
+        return BaseResult.success();
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)

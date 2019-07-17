@@ -64,33 +64,18 @@
         });
 
         //执行一个 table 实例
-        table.render({
+        var tableIns = table.render({
             elem: '#demo'
             , height: 500
             , url: '${path}/user/roleList' //数据接口
-            , title: '用户表'
+            , title: '角色表'
             , page: true //开启分页
             , toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             // , totalRow: true //开启合计行
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'id', title: 'ID', sort: true, fixed: 'left', totalRowText: '合计：'}
-                , {field: 'userCode', title: '用户账号', sort: true, totalRow: true}
-                // , {field: 'city', title: '城市', width: 150}
-                , {field: 'name', title: '用户名',}
-                , {field: 'mobile', title: '手机', sort: true, totalRow: true}
-                , {
-                    field: 'sex', title: '性别', sort: true, templet: function (row) {
-                        if (row.sex == 0) {
-                            return "男";
-                        }else {
-                            return "女";
-                        }
-                    }
-                }
-                // , {field: 'sign', title: '签名', width: 200}
-                // , {field: 'classify', title: '职业', width: 100}
-                , {field: 'lastLoginTime', title: '最后一次登陆时间', sort: true, totalRow: true}
+                , {field: 'nameZh', title: '名称', sort: true, totalRow: true}
+                , {field: 'nameEn', title: '标识',}
                 , {fixed: 'right', align: 'center', toolbar: '#barDemo'}
             ]]
         });
@@ -105,7 +90,10 @@
                         type: 2,
                         //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
                         content: '${path}/user/roleAdd',
-                        area: ['650px', '450px']
+                        area: ['650px', '450px'],
+                        end:function () {
+                            tableIns.reload();
+                        }
                     })
                     break;
                 case 'update':
@@ -114,14 +102,47 @@
                     } else if (data.length > 1) {
                         layer.msg('只能同时编辑一个');
                     } else {
-                        layer.alert('编辑 [id]：' + checkStatus.data[0].id);
+                        layer.open({
+                            type: 2,
+                            //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                            content: '${path}/user/roleEdit?id='+data[0].id,
+                            area: ['650px', '450px'],
+                            end:function () {
+                                // tableIns.reload();
+                            }
+                        })
                     }
                     break;
                 case 'delete':
                     if (data.length === 0) {
                         layer.msg('请选择一行');
                     } else {
-                        layer.msg('删除');
+
+                        layer.confirm('确定删除数据?', function(index){
+                            //do something
+                            var str = "";
+                            for (var x =0;x < data.length;x ++) {
+                                if (x == data.length){
+                                    str += data[x].id;
+                                } else {
+                                    str += data[x].id + ",";
+                                }
+                            }
+
+                            $.ajax({
+                                "url":'${path}/user/roleDel',
+                                "data":{"id":str},
+                                "dataType":"json",
+                                "success":function (result) {
+                                    layer.msg('删除成功');
+                                    tableIns.reload();
+                                }
+                            })
+
+                            layer.close(index);
+                        });
+
+
                     }
                     break;
             }

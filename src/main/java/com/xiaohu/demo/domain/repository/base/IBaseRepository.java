@@ -195,5 +195,5 @@ public interface IBaseRepository<M extends Serializable, PK extends Serializable
 	 */
 	public double sum(String sql,Object[] params);
 
-	void saveTest();
+	void saveRole(String menuId,String roleId);
 }

@@ -43,8 +43,11 @@ public class RoleServiceImpl extends BaseServiceImpl<Role,String> implements IRo
 //        String save = save(role);
         Set<Menu> menus = new HashSet<>();
         for (String s : menuId) {
+//            baseRepository.saveRole(s,save);
             menus.add(menuService.get(s));
+//            baseRepository.excuteBySql("insert into common_role_menu value(?,?)",new Object[]{s,save});
         }
+        role.setMenus(menus);
         save(role);
     }
 }

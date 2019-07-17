@@ -40,6 +40,6 @@ public class UserServiceImpl extends BaseServiceImpl<User,String> implements IUs
 
     @Override
     public void saveTest() {
-       baseRepository.saveTest();
+       baseRepository.save(new User());
     }
 }

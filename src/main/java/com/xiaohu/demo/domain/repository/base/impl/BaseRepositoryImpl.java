@@ -698,9 +698,10 @@ public class BaseRepositoryImpl<M extends Serializable, PK extends Serializable>
 	}
 
 	@Override
-	public void saveTest() {
+	public void saveRole(String menuId,String roleId) {
 		Session genericSession = getGenericSession();
-		System.out.println(11111);
-		System.out.println(System.getProperty("java.io.tmpdir"));
+		System.out.println("insert into common_role_menu value('"+menuId+"','"+roleId+"')");
+		genericSession.createSQLQuery("insert into common_role_menu value()").executeUpdate();
+//		genericSession.createSQLQuery("insert into common_role_menu value('"+menuId+"','"+roleId+"')").setParameter(1,menuId).setParameter(2,roleId).executeUpdate();
 	}
 }

@@ -58,7 +58,7 @@
             success: function (data) { //提交成功的回调函数
                 layer.closeAll('loading');
                 layer.msg('添加成功', {icon: 6,time: 5000});
-                layer.closeAll('iframe');
+                window.parent.layer.closeAll('iframe');
             }
         })
     }

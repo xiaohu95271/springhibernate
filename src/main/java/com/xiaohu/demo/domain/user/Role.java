@@ -46,7 +46,7 @@ public class Role extends BaseVO {
 	/**
 	 *  用户列表
 	 */
-	@ManyToMany(cascade = CascadeType.MERGE, mappedBy = "roles", fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.MERGE, mappedBy = "roles")
 	@JsonIgnore
 	private Set<User> users;
 
@@ -54,8 +54,8 @@ public class Role extends BaseVO {
 	/**
 	 * 菜单列表
 	 */
-	@JoinTable(name = "common_role_menu", joinColumns = { @JoinColumn(name = "role_id",referencedColumnName = "id")}, inverseJoinColumns = { @JoinColumn(name = "menu_id",referencedColumnName = "id")})
+//	@JoinTable(name = "common_role_menu", joinColumns = { @JoinColumn(name = "role_id",referencedColumnName = "id")}, inverseJoinColumns = { @JoinColumn(name = "menu_id",referencedColumnName = "id")})
 	@ManyToMany(cascade = CascadeType.PERSIST)
-		@JsonIgnore
+	@JsonIgnore
 	private Set<Menu> menus;
 }
