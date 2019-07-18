@@ -16,6 +16,10 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+    <bean id="configBean" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:config/data/config.properties" />
+    </bean>
+
     <!--controller扫描-->
     <context:component-scan base-package="com.xiaohu.demo.controller"></context:component-scan>
     <!-- 静态资源配置 -->

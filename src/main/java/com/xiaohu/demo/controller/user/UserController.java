@@ -97,6 +97,51 @@ public class UserController {
     }
 
 
+    /**
+     * 用户添加页面跳转
+     *
+     * @return map
+     */
+    @RequestMapping(value = "/userAdd")
+    public ModelAndView userAdd() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("user/user-add");
+        return view;
+    }
+
+
+
+
+    /**
+     * 用户修改页面跳转
+     *
+     * @return map
+     */
+    @RequestMapping(value = "/userEdit")
+    public ModelAndView userEdit() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("user/user-edit");
+        return view;
+    }
+
+
+
+
+
+
+    /**
+     * 用户详情页面跳转
+     *
+     * @return map
+     */
+    @RequestMapping(value = "/userDetail")
+    public ModelAndView userDetail() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("user/user-detail");
+        return view;
+    }
+
+
 
      /**
      * 添加角色列表页面跳转
@@ -176,8 +221,9 @@ public class UserController {
         roleService.updateRole(role,menuId,new User());
         return BaseResult.success();
     }
+
  /**
-     * 用户列表页面跳转
+     * 用户列表页面数据获取
      * @param page 当前页
      * @param limit 显示条数
      * @return map

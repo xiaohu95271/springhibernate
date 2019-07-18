@@ -14,8 +14,36 @@
 		http://www.springframework.org/schema/context
 		https://www.springframework.org/schema/context/spring-context.xsd">
     <!-- spring集成，注释掉 -->
-    <context:component-scan base-package="com.xiaohu.demo.service.impl" />
+    <context:component-scan base-package="com.xiaohu.demo.service.**.impl" />
     <bean id="configBean" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:config/data/config.properties" />
+    </bean>
+
+    <!--配置文件服务器========================================================-->
+   <!--<import resource="classpath:config/data/fastdfs.xml"></import>-->
+    <!--配置扫描包-->
+    <context:component-scan base-package="com.github.tobato.fastdfs.service,com.github.tobato.fastdfs.domain"/>
+    <!--配置连接管理器-->
+    <bean id="trackerConnectionManager" class="com.github.tobato.fastdfs.domain.conn.TrackerConnectionManager">
+        <constructor-arg name="pool" ref="fdfsConnectionPool">
+        </constructor-arg>
+        <!--配置fastDFS tracker 服务器 ip:port 地址-->
+        <property name="trackerList">
+            <list>
+                <value>${fastdf.serverUrl}</value>
+            </list>
+        </property>
+    </bean>
+    <!--配置连接池-->
+    <bean id="fdfsConnectionPool" class="com.github.tobato.fastdfs.domain.conn.FdfsConnectionPool">
+        <!--注入连接池配置-->
+        <constructor-arg name="config" >
+            <bean class="com.github.tobato.fastdfs.domain.conn.ConnectionPoolConfig"/>
+        </constructor-arg>
+        <!--注入连接池工厂-->
+        <constructor-arg name="factory" >
+            <bean class="com.github.tobato.fastdfs.domain.conn.PooledConnectionFactory"/>
+            <!--<bean class="com.github.tobato.fastdfs.conn.PooledConnectionFactory"/> FdfsConnectionPool -->
+        </constructor-arg>
     </bean>
 </beans>
