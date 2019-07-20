@@ -105,6 +105,8 @@ public class UserController {
     @RequestMapping(value = "/userAdd")
     public ModelAndView userAdd() {
         ModelAndView view = new ModelAndView();
+        List<Role> roles = roleService.loadAll();
+        view.addObject("roles",roles);
         view.setViewName("user/user-add");
         return view;
     }

@@ -32,7 +32,7 @@
 <form class="layui-form" action="">
     <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
-        <div class="layui-input-block">
+        <div class="layui-input-inline">
             <input type="text" name="name" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
         </div>
     </div>
@@ -43,14 +43,7 @@
         </div>
         <div class="layui-form-mid layui-word-aux"></div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">用户头像</label>
-        <div class="layui-input-block">
-            <button type="button" class="layui-btn" id="test1">
-                <i class="layui-icon">&#xe67c;</i>上传图片
-            </button>
-        </div>
-    </div>
+
     <%--<div class="layui-form-item">--%>
         <%--<label class="layui-form-label">选择框</label>--%>
         <%--<div class="layui-input-block">--%>
@@ -65,31 +58,47 @@
         <%--</div>--%>
     <%--</div>--%>
     <div class="layui-form-item">
-        <label class="layui-form-label">复选框</label>
+        <label class="layui-form-label">角色</label>
         <div class="layui-input-block">
-            <input type="checkbox" name="like[write]" title="写作">
-            <input type="checkbox" name="like[read]" title="阅读" checked>
-            <input type="checkbox" name="like[dai]" title="发呆">
+            <c:forEach items="${roles}" var="role">
+                <input type="checkbox" name="${role.nameEn}" value="${role.nameEn}" title="${role.nameZh}">
+            </c:forEach>
         </div>
     </div>
+    <div class="layui-inline">
+        <div class="layui-inline">
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户头像</label>
+                <div class="layui-input-inline">
+                    <button type="button" class="layui-btn" id="test1">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
+                </div>
 
-    <div class="layui-form-item">
-        <label class="layui-form-label">单选框</label>
-        <div class="layui-input-block">
-            <input type="radio" name="sex" value="男" title="男">
-            <input type="radio" name="sex" value="女" title="女" checked>
-        </div>
-    </div>
-    <%--<div class="layui-form-item layui-form-text">--%>
-        <%--<label class="layui-form-label">文本域</label>--%>
-        <%--<div class="layui-input-block">--%>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">单选框</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="sex" value="男" title="男">
+                    <input type="radio" name="sex" value="女" title="女" checked>
+                </div>
+            </div>
+            <%--<div class="layui-form-item layui-form-text">--%>
+            <%--<label class="layui-form-label">文本域</label>--%>
+            <%--<div class="layui-input-block">--%>
             <%--<textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-    <div class="layui-form-item">
-        <label class="layui-form-label">禁用</label>
-        <div class="layui-input-block">
-            <input type="checkbox" name="switch" lay-skin="switch">
+            <%--</div>--%>
+            <%--</div>--%>
+            <div class="layui-form-item">
+                <label class="layui-form-label">禁用</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="switch" lay-skin="switch" lay-text="启用|禁用">
+                </div>
+            </div>
+        </div>
+        <div class="layui-inline pull-right" id="imgShow">
+
         </div>
     </div>
     <div class="layui-form-item">
@@ -120,12 +129,17 @@
         //执行实例
         var uploadInst = upload.render({
             elem: '#test1' //绑定元素
-            ,url: '/upload/' //上传接口
+            ,acceptMime: 'image/*'//（只显示图片文件）
+            ,url: '${path}/file/upload/upload' //上传接口
+            ,drag:true
             ,done: function(res){
                 //上传完毕回调
+                $("#imgShow").html("<img src=\"http://"+res.filePath+"\" id=\"headImg\" width=\"100px\" height=\"100px\">")
+                layer.msg("上传成功！",{icon:1})
             }
             ,error: function(){
                 //请求异常回调
+                layer.msg("上传失败！",{icon:5})
             }
         });
     });
@@ -135,7 +149,7 @@
 
         //监听提交
         form.on('submit(formDemo)', function(data){
-            layer.msg(JSON.stringify(data.field));
+            layer.alert(JSON.stringify(data.field));
             return false;
         });
     });
