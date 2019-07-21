@@ -45,4 +45,14 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!-- shiro 权限控制的过滤器 https://www.cnblogs.com/Weagle/p/7908592.html -->
+    <filter>
+        <filter-name>shiroFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>shiroFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>
