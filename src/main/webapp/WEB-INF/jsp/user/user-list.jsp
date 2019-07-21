@@ -13,7 +13,7 @@
     <meta charset="utf-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>用户首页-列表</title>
+    <title>用户管理-列表</title>
     <%@include file="/WEB-INF/jsp/common/import.jsp" %>
     <style>
         body {
@@ -74,42 +74,77 @@
             // , totalRow: true //开启合计行
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'id', title: 'ID', sort: true, fixed: 'left', totalRowText: '合计：'}
+                // , {field: 'id', title: 'ID', sort: true, fixed: 'left', totalRowText: '合计：'}
                 , {field: 'userCode', title: '用户账号', sort: true, totalRow: true}
-                // , {field: 'city', title: '城市', width: 150}
-                , {field: 'name', title: '用户名',}
+                // , {field: 'city', title: '城市',sort: true, width: 150}
+                , {field: 'name', title: '用户名',sort: true,}
                 , {field: 'mobile', title: '手机', sort: true, totalRow: true}
                 , {
                     field: 'sex', title: '性别', sort: true, templet: function (row) {
-                        if (row.sex == 0) {
-                            return "男";
-                        }else {
-                            return "女";
-                        }
+                        // if (row.sex == 0) {
+                            return row.sex;
+                        // }else {
+                        //     return "女";
+                        // }
                     }
                 }
                 // , {field: 'sign', title: '签名', width: 200}
                 // , {field: 'classify', title: '职业', width: 100}
                 , {field: 'lastLoginTime', title: '最后一次登陆时间', sort: true, totalRow: true}
+                , {field: 'lastLoginTime', status: '状态', sort: true, totalRow: true,templet:function (row) {
+                    if (row.status == "1"){
+                        return "<span style='color: mediumspringgreen'>启用</span>"
+                    } else {
+                        return "<span style='color: red'>禁用</span>"
+                    }
+                    }}
                 , {fixed: 'right', align: 'center', toolbar: '#barDemo'}
             ]]
         });
+        //监听工具条
+        table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
 
+            if(layEvent === 'detail'){ //查看
+                layer.open({
+                    type: 2,
+                    //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                    content: '${path}/user/userEdit?type=1&id='+data.id,
+                    title:["用户编辑",'color:#fff;background-color:rgb(0, 150, 136);'],
+                    area: ['650px', '500px'],
+                    end:function () {
+                        tableIns.reload();
+                    }
+                })
+            } else if(layEvent === 'del'){ //删除
+                layer.confirm('真的删除行么', function(index){
+                    $.ajax({
+                        url:"${path}/user/userDel?id="+data.id,
+                        dataType:"json",
+                        success:function() {
+
+                            obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                        }
+                    });
+                    layer.close(index)
+                    //向服务端发送删除指令
+                });
+            } else if(layEvent === 'edit'){ //编辑
+                //do something
+
+                //同步更新缓存对应的值
+                userEdit(tableIns,data)
+            }
+        });
         //监听头工具栏事件
         table.on('toolbar(test)', function (obj) {
             var checkStatus = table.checkStatus(obj.config.id)
                 , data = checkStatus.data; //获取选中的数据
             switch (obj.event) {
                 case 'add':
-                    layer.open({
-                        type: 2,
-                        //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
-                        content: '${path}/user/userAdd',
-                        area: ['650px', '500px'],
-                        end:function () {
-                            tableIns.reload();
-                        }
-                    })
+                   userAdd(tableIns);
                     break;
                 case 'update':
                     if (data.length === 0) {
@@ -117,14 +152,21 @@
                     } else if (data.length > 1) {
                         layer.msg('只能同时编辑一个');
                     } else {
-                        layer.alert('编辑 [id]：' + checkStatus.data[0].id);
+                        userEdit(tableIns,data[0]);
                     }
                     break;
                 case 'delete':
                     if (data.length === 0) {
                         layer.msg('请选择一行');
                     } else {
-                        layer.msg('删除');
+                        $.ajax({
+                            url:"${path}/user/userDel?id="+data[0].id,
+                            dataType:"json",
+                            success:function() {
+                                tableIns.reload();
+                            }
+                        });
+                        layer.msg('删除成功');
                     }
                     break;
             }
@@ -134,6 +176,32 @@
 
     });
 
+    //用户添加
+    function userAdd(tableIns) {
+        layer.open({
+            type: 2,
+            //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+            content: '${path}/user/userAdd',
+            area: ['650px', '500px'],
+            end:function () {
+                tableIns.reload();
+            }
+        })
+    }
+
+    //用户编辑
+    function userEdit(tableIns,data) {
+        layer.open({
+            type: 2,
+            //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+            content: '${path}/user/userEdit?id='+data.id,
+            title:"用户编辑",
+            area: ['650px', '500px'],
+            end:function () {
+                tableIns.reload();
+            }
+        })
+    }
 
 </script>
 </body>

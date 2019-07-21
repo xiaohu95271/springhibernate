@@ -21,4 +21,18 @@ public interface IUserService extends IBaseService<User,String> {
     PageBean<User> queryList(User user, Integer page, Integer limit);
 
     void saveTest();
+
+    /**
+     * 保存或者修改用户
+     * @param user 用户
+     * @param roless 角色
+     */
+    void saveOrUpdateUser(User user, String[] roless);
+
+    /**
+     * 查找用户
+     * @param user 用户
+     * @return
+     */
+    List<User> queryUser(User user);
 }

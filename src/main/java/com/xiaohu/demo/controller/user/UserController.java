@@ -2,6 +2,8 @@ package com.xiaohu.demo.controller.user;
 
 import com.xiaohu.demo.common.Assert;
 import com.xiaohu.demo.common.BaseResult;
+import com.xiaohu.demo.common.Parameters;
+import com.xiaohu.demo.common.StringUtil;
 import com.xiaohu.demo.common.page.LayuiPageResult;
 import com.xiaohu.demo.common.page.PageBean;
 import com.xiaohu.demo.domain.system.menu.Menu;
@@ -11,9 +13,11 @@ import com.xiaohu.demo.service.admin.menu.IMenuService;
 import com.xiaohu.demo.service.admin.menu.IRoleService;
 import com.xiaohu.demo.service.user.IUserService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -57,15 +61,7 @@ public class UserController {
         return "accessDenied";
     }
 
-    /**
-     * 登陆页面跳转
-     *
-     * @return
-     */
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginPage() {
-        return "login";
-    }
+
 
     /**
      * 登陆验证
@@ -75,6 +71,7 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public Map login(User user) {
+        List<User> users = userService.queryUser(user);
         Map<String, Object> map = new HashMap<>();
         System.out.println("from User where userCode='" + user.getUserCode() + "'");
         List<User> query = userService.query("from User where userCode='" + user.getUserCode() + "'", null);
@@ -116,33 +113,31 @@ public class UserController {
 
     /**
      * 用户修改页面跳转
-     *
+     * @param type type=1 用户详情页面跳转
      * @return map
      */
     @RequestMapping(value = "/userEdit")
-    public ModelAndView userEdit() {
+    public ModelAndView userEdit(String id,Integer type) {
         ModelAndView view = new ModelAndView();
-        view.setViewName("user/user-edit");
+        User user = userService.get(id);
+        view.addObject("user",user);
+        List<Role> roles = roleService.loadAll();
+        for (Role role : roles) {
+            for (Role userRole : user.getRoles()) {
+                if (StringUtils.equals(role.getId(),userRole.getId())){
+                    role.setStatus("1");
+                }
+            }
+        }
+        view.addObject("roles",roles);
+
+        if (type != null && type == 1){
+            view.setViewName("user/user-detail");
+        }else {
+            view.setViewName("user/user-edit");
+        }
         return view;
     }
-
-
-
-
-
-
-    /**
-     * 用户详情页面跳转
-     *
-     * @return map
-     */
-    @RequestMapping(value = "/userDetail")
-    public ModelAndView userDetail() {
-        ModelAndView view = new ModelAndView();
-        view.setViewName("user/user-detail");
-        return view;
-    }
-
 
 
      /**
@@ -238,6 +233,18 @@ public class UserController {
         return layuiPageResult;
     }
 
+ /**
+     * 用户数据删除
+     * @param id 用户id
+     * @return map
+     */
+    @RequestMapping(value = "/userDel")
+    @ResponseBody
+    public BaseResult userDel(String id) {
+        userService.deleteByPK(id);
+        return BaseResult.success();
+    }
+
     /**
      * 添加用户
      *
@@ -246,11 +253,22 @@ public class UserController {
      */
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     @ResponseBody
-    public Map addUser(User user) {
-        Map<String, Object> map = new HashMap<>();
-        userService.save(user);
-        map.put("code", 0);
-        return map;
+    public BaseResult addUser(User user,String[] roless) {
+        userService.saveOrUpdateUser(user,roless);
+        return BaseResult.success();
+    }
+
+    /**
+     * 添加用户
+     *
+     * @param user 用户实体
+     * @return
+     */
+    @RequestMapping(value = "/editUser", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResult editUser(User user,String[] roless) {
+        userService.saveOrUpdateUser(user,roless);
+        return BaseResult.success();
     }
 
     /**
@@ -280,12 +298,6 @@ public class UserController {
     public BaseResult roleDel(String[] id) {
         roleService.deleteByPK(id);
         return BaseResult.success();
-    }
-
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
-
-        return "redirect:/login?logout";
     }
 
     private String getPrincipal() {

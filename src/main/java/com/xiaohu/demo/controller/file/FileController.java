@@ -12,10 +12,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -24,6 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
@@ -54,36 +52,25 @@ public class FileController {
 
 
 
-    @RequestMapping(value = "/upload",method = RequestMethod.POST)
+    @RequestMapping(value = "/upload",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public Object fileUpload(HttpServletRequest request) {
+    public Object fileUpload(@RequestParam(value = "headImage",required = false)MultipartFile headImage, HttpServletRequest request) {
         try {
-            DiskFileItemFactory factory = new DiskFileItemFactory();
 
-            // Set factory constraints
-            // 设置缓冲区大小，这里是4kb
-            factory.setSizeThreshold(4096);
-//            // 设置缓冲区目录
-            factory.setRepository(new File("D:\\developMent\\work\\recognition"));
+            request.getServerName();//获取服务器域名
 
-            // Create a new file upload handler
-            ServletFileUpload upload = new ServletFileUpload(factory);
+            request.getServerPort();//获取服务器端口
 
-            // Set overall request size constraint
-            //设置最大文件尺寸，这里是4MB
-            upload.setSizeMax(4194304);
+            InetAddress address= InetAddress.getByName(request.getServerName());
 
-//            得到所有的文件
-            List<FileItem> items = upload.parseRequest(request);
-
-            StorePath storePath = fastFileStorageClient.uploadFile(null,items.get(0).getInputStream(), items.get(0).getSize(), "jpg");
+            address.getHostAddress(  );//获取服务器IP地址
+            System.out.println(request.getServerName()+":"+request.getServerPort() +address.getHostAddress(  ));
+            StorePath storePath = fastFileStorageClient.uploadFile(null,headImage.getInputStream(), headImage.getSize(), "jpg");
              String filepath = fastdfsUrl+"/"+ storePath.getFullPath();
              return FileResult.success(filepath);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (FileUploadException e) {
             e.printStackTrace();
         }
         return null;

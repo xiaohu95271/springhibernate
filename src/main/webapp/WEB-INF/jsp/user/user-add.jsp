@@ -13,7 +13,7 @@
     <meta charset="utf-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>用户首页-列表</title>
+    <title>用户管理-添加</title>
     <%@include file="/WEB-INF/jsp/common/import.jsp" %>
     <style>
         body {
@@ -29,17 +29,23 @@
 </head>
 <body>
 
-<form class="layui-form" action="">
+<form class="layui-form" action="" id="dataForm">
     <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-inline">
-            <input type="text" name="name" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+            <input type="text" name="name" required  lay-verify="username" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">手机</label>
+        <div class="layui-input-inline">
+            <input type="text" name="mobile" required  lay-verify="phone" placeholder="请输入手机" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">密码</label>
         <div class="layui-input-inline">
-            <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+            <input type="password" name="password" required lay-verify="pass" placeholder="请输入密码" autocomplete="off" class="layui-input">
         </div>
         <div class="layui-form-mid layui-word-aux"></div>
     </div>
@@ -61,8 +67,9 @@
         <label class="layui-form-label">角色</label>
         <div class="layui-input-block">
             <c:forEach items="${roles}" var="role">
-                <input type="checkbox" name="${role.nameEn}" value="${role.nameEn}" title="${role.nameZh}">
+                <input type="checkbox" name="roless" value="${role.id}" title="${role.nameZh}"/>
             </c:forEach>
+<%--            <input type="hidden" name="roles" id="roless">--%>
         </div>
     </div>
     <div class="layui-inline">
@@ -75,6 +82,7 @@
                     </button>
                 </div>
 
+                <input type="hidden" name="headimg" id="headimg">
             </div>
 
             <div class="layui-form-item">
@@ -84,26 +92,20 @@
                     <input type="radio" name="sex" value="女" title="女" checked>
                 </div>
             </div>
-            <%--<div class="layui-form-item layui-form-text">--%>
-            <%--<label class="layui-form-label">文本域</label>--%>
-            <%--<div class="layui-input-block">--%>
-            <%--<textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>--%>
-            <%--</div>--%>
-            <%--</div>--%>
             <div class="layui-form-item">
-                <label class="layui-form-label">禁用</label>
+                <label class="layui-form-label">是否启用</label>
                 <div class="layui-input-block">
-                    <input type="checkbox" name="switch" lay-skin="switch" lay-text="启用|禁用">
+                    <input type="checkbox" name="status"  checked value="1" lay-skin="switch" lay-text="启用|禁用">
                 </div>
             </div>
         </div>
         <div class="layui-inline pull-right" id="imgShow">
-
+            <img src="" id="preShow" width="150px" height="200px" style="display: none">
         </div>
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button class="layui-btn" type="button"  lay-submit lay-filter="formDemo">立即提交</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
@@ -132,24 +134,70 @@
             ,acceptMime: 'image/*'//（只显示图片文件）
             ,url: '${path}/file/upload/upload' //上传接口
             ,drag:true
+            ,field:"headImage"
+            // ,headers:{"Content-Type":"multipart/form-data"}
             ,done: function(res){
+                layer.closeAll('loading');
                 //上传完毕回调
-                $("#imgShow").html("<img src=\"http://"+res.filePath+"\" id=\"headImg\" width=\"100px\" height=\"100px\">")
+                $("#headimg").val(res.filePath)
+                $("#imgShow").html("<img src=\"http://"+res.filePath+"\" id=\"headImg\" width=\"150px\" height=\"200px\">")
                 layer.msg("上传成功！",{icon:1})
             }
             ,error: function(){
                 //请求异常回调
+                layer.closeAll('loading');
                 layer.msg("上传失败！",{icon:5})
-            }
-        });
+            },
+            before: function(obj){
+                layer.load(); //上传loading
+                $("#preShow").show()
+            //预读本地文件示例，不支持ie8
+            obj.preview(function(index, file, result){
+                $('#preShow').attr('src', result); //图片链接（base64）
+            });
+        }
+    });
     });
     //Demo
+
     layui.use('form', function(){
         var form = layui.form;
+        // var chk_value =[];//定义一个数组
+        // $('input[name="role"]:checked').each(function(){//遍历每一个名字为nodes的复选框，其中选中的执行函数
+        //     chk_value.push($(this).val());//将选中的值添加到数组chk_value中
+        // });
+        // var roles = chk_value.join(",");
+        // $("#roless").val(roles);
 
+        // form.on('checkbox(filter)', function(data){
+        //     console.log(data.elem); //得到checkbox原始DOM对象
+        //     console.log(data.elem.checked); //是否被选中，true或者false
+        //     console.log(data.value); //复选框value值，也可以通过data.elem.value得到
+        //     console.log(data.othis); //得到美化后的DOM对象
+        // });
+        form.verify({
+            username: function(value, item){ //value：表单的值、item：表单的DOM对象
+                if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)){
+                    return '用户名不能有特殊字符';
+                }
+                if(/(^\_)|(\__)|(\_+$)/.test(value)){
+                    return '用户名首尾不能出现下划线\'_\'';
+                }
+                if(/^\d+\d+\d$/.test(value)){
+                    return '用户名不能全为数字';
+                }
+            }
+
+            //我们既支持上述函数式的方式，也支持下述数组的形式
+            //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
+            ,pass: [
+                /^[\S]{6,12}$/
+                ,'密码必须6到12位，且不能出现空格'
+            ]
+        });
         //监听提交
         form.on('submit(formDemo)', function(data){
-            layer.alert(JSON.stringify(data.field));
+            submitForm($("#dataForm").serialize(),"${path}/user/addUser");
             return false;
         });
     });
