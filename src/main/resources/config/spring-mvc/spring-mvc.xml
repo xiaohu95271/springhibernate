@@ -47,4 +47,11 @@
             <value>52428800</value>
         </property>
     </bean>
+    <!-- shiro相关的配置文件和路径扫描的配置必须要放在项目的mvc的配置文件(即xxx-servlet.xml)里 -->
+        <aop:config proxy-target-class="true" />
+
+        <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+            <property name="securityManager" ref="securityManager" />
+         </bean>
+
 </beans>

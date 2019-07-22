@@ -14,6 +14,8 @@ import com.xiaohu.demo.service.admin.menu.IRoleService;
 import com.xiaohu.demo.service.user.IUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -70,15 +72,14 @@ public class UserController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public Map login(User user) {
+    public BaseResult login(User user) {
         List<User> users = userService.queryUser(user);
-        Map<String, Object> map = new HashMap<>();
-        System.out.println("from User where userCode='" + user.getUserCode() + "'");
-        List<User> query = userService.query("from User where userCode='" + user.getUserCode() + "'", null);
-        if (!query.isEmpty()) {
-            map.put("code", 0);
-        }
-        return map;
+        User user1 = users.get(0);
+        UsernamePasswordToken token = new UsernamePasswordToken(user1.getUserCode(), user1.getPassword(), true);
+
+        SecurityUtils.getSubject().login(token);
+
+        return BaseResult.success();
     }
 
     /**
