@@ -15,7 +15,8 @@
 
     <!-- 缓存管理器 使用memory实现 -->
 
-
+    <!-- 自定义realm -->
+    <bean id="shiroDbRealm" class="com.xiaohu.demo.common.shiro.UserRealm" />
     <!--rememberMe 30天 -->
     <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
         <constructor-arg value="COOKIE_NAME" />

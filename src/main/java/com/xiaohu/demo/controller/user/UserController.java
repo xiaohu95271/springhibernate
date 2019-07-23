@@ -1,9 +1,6 @@
 package com.xiaohu.demo.controller.user;
 
-import com.xiaohu.demo.common.Assert;
-import com.xiaohu.demo.common.BaseResult;
-import com.xiaohu.demo.common.Parameters;
-import com.xiaohu.demo.common.StringUtil;
+import com.xiaohu.demo.common.*;
 import com.xiaohu.demo.common.page.LayuiPageResult;
 import com.xiaohu.demo.common.page.PageBean;
 import com.xiaohu.demo.domain.system.menu.Menu;
@@ -16,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -64,7 +62,6 @@ public class UserController {
     }
 
 
-
     /**
      * 登陆验证
      *
@@ -72,14 +69,26 @@ public class UserController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult login(User user) {
+    public BaseResult login(User user, HttpServletRequest request) {
         List<User> users = userService.queryUser(user);
-        User user1 = users.get(0);
-        UsernamePasswordToken token = new UsernamePasswordToken(user1.getUserCode(), user1.getPassword(), true);
-
-        SecurityUtils.getSubject().login(token);
-
-        return BaseResult.success();
+        if (!users.isEmpty()) {
+            User user1 = users.get(0);
+            String md5 = DigestUtils.md5DigestAsHex((user.getPassword() + user1.getSalt()).getBytes());
+            if (StringUtils.equals(md5, user1.getPassword())) {
+                Subject currentUser = SecurityUtils.getSubject();
+                UsernamePasswordToken token = new UsernamePasswordToken(user1.getUserCode(), md5);
+//                token.setRememberMe(false);
+                currentUser.login(token);
+                request.getSession().setAttribute("User", user1);
+                //更新用户登录时间
+                user1.setLastLoginTime(DateUtil.getDate(DateUtil.YYYY_MM_DD_HH_MM_SS));
+                this.userService.update(user1);
+                return BaseResult.success();
+            }else {
+                return BaseResult.error(500,"用户账号或者密码不正确");
+            }
+        }
+        return BaseResult.error(500,"用户名不存在");
     }
 
     /**
@@ -104,79 +113,78 @@ public class UserController {
     public ModelAndView userAdd() {
         ModelAndView view = new ModelAndView();
         List<Role> roles = roleService.loadAll();
-        view.addObject("roles",roles);
+        view.addObject("roles", roles);
         view.setViewName("user/user-add");
         return view;
     }
 
 
-
-
     /**
      * 用户修改页面跳转
+     *
      * @param type type=1 用户详情页面跳转
      * @return map
      */
     @RequestMapping(value = "/userEdit")
-    public ModelAndView userEdit(String id,Integer type) {
+    public ModelAndView userEdit(String id, Integer type) {
         ModelAndView view = new ModelAndView();
         User user = userService.get(id);
-        view.addObject("user",user);
+        view.addObject("user", user);
         List<Role> roles = roleService.loadAll();
         for (Role role : roles) {
             for (Role userRole : user.getRoles()) {
-                if (StringUtils.equals(role.getId(),userRole.getId())){
+                if (StringUtils.equals(role.getId(), userRole.getId())) {
                     role.setStatus("1");
                 }
             }
         }
-        view.addObject("roles",roles);
+        view.addObject("roles", roles);
 
-        if (type != null && type == 1){
+        if (type != null && type == 1) {
             view.setViewName("user/user-detail");
-        }else {
+        } else {
             view.setViewName("user/user-edit");
         }
         return view;
     }
 
 
-     /**
+    /**
      * 添加角色列表页面跳转
      *
      * @return map
      */
     @RequestMapping(value = "/roleAdd")
-    public ModelAndView roleAdd( ) {
+    public ModelAndView roleAdd() {
         ModelAndView view = new ModelAndView();
         view.setViewName("user/role-add");
         return view;
     }
 
 
-     /**
+    /**
      * 修改角色列表页面跳转
      *
      * @return map
      */
     @RequestMapping(value = "/roleEdit")
-    public ModelAndView roleEdit(String id,String type) {
+    public ModelAndView roleEdit(String id, String type) {
         ModelAndView view = new ModelAndView();
         Role role = roleService.get(id);
-        view.addObject("role",role);
+        view.addObject("role", role);
         Set<Menu> menus = role.getMenus();
 
         StringBuilder menuIdStr = new StringBuilder("[");
         if (Assert.notEmpty(menus)) {
             for (Menu menu : menus) {
-                menuIdStr.append( "\"" + menu.getId() + "\",");
+                menuIdStr.append("\"" + menu.getId() + "\",");
             }
             menuIdStr = new StringBuilder(menuIdStr.substring(0, menuIdStr.lastIndexOf(",")));
         }
-        menuIdStr.append( "]");
+        menuIdStr.append("]");
 
-        view.addObject("menus",menuIdStr);
-        if (StringUtils.isNotBlank(type) && StringUtils.equals(type,"1")){
+        view.addObject("menus", menuIdStr);
+        if (StringUtils.isNotBlank(type) && StringUtils.equals(type, "1")) {
             view.setViewName("user/role-detail");
             return view;
         }
@@ -199,43 +207,48 @@ public class UserController {
 
     /**
      * 添加角色
+     *
      * @param role 实体
      * @return map
      */
     @RequestMapping(value = "/roleAddData")
     @ResponseBody
-    public BaseResult roleAdd(Role role,String[] menuId) {
-        roleService.saveRole(role,menuId,new User());
+    public BaseResult roleAdd(Role role, String[] menuId) {
+        roleService.saveRole(role, menuId, new User());
         return BaseResult.success();
     }
+
     /**
      * 修改角色
+     *
      * @param role 实体
      * @return map
      */
     @RequestMapping(value = "/roleUpdateData")
     @ResponseBody
-    public BaseResult roleUpdateData(Role role,String[] menuId) {
-        roleService.updateRole(role,menuId,new User());
+    public BaseResult roleUpdateData(Role role, String[] menuId) {
+        roleService.updateRole(role, menuId, new User());
         return BaseResult.success();
     }
 
- /**
+    /**
      * 用户列表页面数据获取
-     * @param page 当前页
+     *
+     * @param page  当前页
      * @param limit 显示条数
      * @return map
      */
     @RequestMapping(value = "/userDate")
     @ResponseBody
-    public LayuiPageResult userDate(User user,Integer page,Integer limit) {
-        PageBean<User> list = userService.queryList(user,page,limit);
-        LayuiPageResult layuiPageResult = new LayuiPageResult(0,list.getResult(),list.getAllCount());
+    public LayuiPageResult userDate(User user, Integer page, Integer limit) {
+        PageBean<User> list = userService.queryList(user, page, limit);
+        LayuiPageResult layuiPageResult = new LayuiPageResult(0, list.getResult(), list.getAllCount());
         return layuiPageResult;
     }
 
- /**
+    /**
      * 用户数据删除
+     *
      * @param id 用户id
      * @return map
      */
@@ -254,8 +267,8 @@ public class UserController {
      */
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult addUser(User user,String[] roless) {
-        userService.saveOrUpdateUser(user,roless);
+    public BaseResult addUser(User user, String[] roless) {
+        userService.saveOrUpdateUser(user, roless);
         return BaseResult.success();
     }
 
@@ -267,8 +280,8 @@ public class UserController {
      */
     @RequestMapping(value = "/editUser", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult editUser(User user,String[] roless) {
-        userService.saveOrUpdateUser(user,roless);
+    public BaseResult editUser(User user, String[] roless) {
+        userService.saveOrUpdateUser(user, roless);
         return BaseResult.success();
     }
 
@@ -280,17 +293,18 @@ public class UserController {
      */
     @RequestMapping(value = "/roleList", method = RequestMethod.GET)
     @ResponseBody
-    public LayuiPageResult roleList(Role role,Integer page,Integer limit) {
+    public LayuiPageResult roleList(Role role, Integer page, Integer limit) {
         PageBean<Role> bean = new PageBean<>();
         bean.setPage(page);
         bean.setRows(limit);
-        LayuiPageResult result = roleService.getPage(new User(),role,bean);
+        LayuiPageResult result = roleService.getPage(new User(), role, bean);
         return result;
     }
 
     /**
      * 删除角色
      * 可以批量删除
+     *
      * @param id id
      * @return
      */

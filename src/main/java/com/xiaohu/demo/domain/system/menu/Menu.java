@@ -37,6 +37,10 @@ public class Menu extends BaseVO {
      */
     private String href;
     /**
+     * 菜单标识
+     */
+    private String identification;
+    /**
      * 备注
      */
     private String remark;
@@ -135,25 +139,11 @@ public class Menu extends BaseVO {
         this.parentMenu = parentMenu;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {return true;}
-        if (o == null || getClass() != o.getClass()) {return false;}
-        if (!super.equals(o)) {return false;}
-        Menu menu = (Menu) o;
-        return Objects.equals(name, menu.name) &&
-                Objects.equals(icon, menu.icon) &&
-                Objects.equals(pid, menu.pid) &&
-                Objects.equals(href, menu.href) &&
-                Objects.equals(remark, menu.remark) &&
-                Objects.equals(orderNumber, menu.orderNumber) &&
-                Objects.equals(roles, menu.roles) &&
-                Objects.equals(children, menu.children) &&
-                Objects.equals(parentMenu, menu.parentMenu);
+    public String getIdentification() {
+        return identification;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), name, icon, pid, href, remark, orderNumber, roles, children, parentMenu);
+    public void setIdentification(String identification) {
+        this.identification = identification;
     }
 }

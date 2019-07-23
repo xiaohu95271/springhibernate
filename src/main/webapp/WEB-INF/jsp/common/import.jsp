@@ -77,9 +77,14 @@
             url: url, //请求url
             success: function (data) { //提交成功的回调函数
                 layer.closeAll('loading');
-                layer.msg('添加成功', {icon: 6,time: 5000});
-                window.parent.layer.closeAll('iframe');
-                window.location.href=backUrl;
+                if (data.code == 0){
+                    layer.msg('添加成功', {icon: 6,time: 5000});
+                    window.parent.layer.closeAll('iframe');
+                    window.location.href=backUrl;
+                } else {
+                    layer.msg(data.msg, {icon: 5,time: 5000});
+
+                }
             }
         })
     }
