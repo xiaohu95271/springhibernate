@@ -85,7 +85,7 @@
                         <dd><a lay-href="set/user/info.html">基本资料</a></dd>
                         <dd><a lay-href="set/user/password.html">修改密码</a></dd>
                         <hr>
-                        <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
+                        <dd onclick="logout()" style="text-align: center;"><a>退出</a></dd>
                     </dl>
                 </li>
 
@@ -185,7 +185,7 @@
     layui.config({
         base: '' //静态资源所在路径
     }).extend({
-        index: 'lib/index' //主入口模块
+        index: '${path}/lib/index' //主入口模块
     }).use('index');
 </script>
 
@@ -198,6 +198,10 @@
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
     })();
+    
+    function logout() {
+        window.location.href="${path}/logout"
+    }
 </script>
 </body>
 </html>

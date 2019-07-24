@@ -46,6 +46,7 @@
         <property name="filterChainDefinitions">
             <value>
                 /resource/**=anon
+                /file/**=anon
                 /user/login=anon
                 /config.js=anon
                 /**=authc

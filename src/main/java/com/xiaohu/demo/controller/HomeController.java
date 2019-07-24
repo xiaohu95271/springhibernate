@@ -40,7 +40,7 @@ public class HomeController {
      * @return
      */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+    public void logoutPage(HttpServletRequest request, HttpServletResponse response) {
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {
             // session 会销毁，在SessionListener监听session销毁，清理权限缓存
@@ -48,10 +48,12 @@ public class HomeController {
         }
         try {
             response.sendRedirect(request.getContextPath()+"/login");
+            return ;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "redirect:/login?logout";
+        return;
+//        return "redirect:/login";
     }
 
     /**

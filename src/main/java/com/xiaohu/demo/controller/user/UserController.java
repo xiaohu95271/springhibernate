@@ -70,6 +70,11 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public BaseResult login(User user, HttpServletRequest request) {
+        String code = (String) request.getSession().getAttribute("code");
+        String parameter = request.getParameter("vercode");
+        if (!StringUtils.equals(code,parameter.toUpperCase())){
+            return BaseResult.error(500,"请输入正确的验证码");
+        }
         List<User> users = userService.queryUser(user);
         if (!users.isEmpty()) {
             User user1 = users.get(0);
@@ -77,7 +82,6 @@ public class UserController {
             if (StringUtils.equals(md5, user1.getPassword())) {
                 Subject currentUser = SecurityUtils.getSubject();
                 UsernamePasswordToken token = new UsernamePasswordToken(user1.getUserCode(), md5);
-//                token.setRememberMe(false);
                 currentUser.login(token);
                 request.getSession().setAttribute("User", user1);
                 //更新用户登录时间

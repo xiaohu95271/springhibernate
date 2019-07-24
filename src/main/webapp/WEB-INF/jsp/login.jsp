@@ -46,7 +46,8 @@
                         </div>
                         <div class="layui-col-xs5">
                             <div style="margin-left: 10px;">
-                                <img src="https://www.oschina.net/action/user/captcha" class="layadmin-user-login-codeimg" id="LAY-user-get-vercode">
+                                <img src="${path}/file/upload/getCode" onclick="changeImg(this)" class="layadmin-user-login-codeimg" id="LAY-user-get-vercode">
+                                <%--<img src="https://www.oschina.net/action/user/captcha" class="layadmin-user-login-codeimg" id="LAY-user-get-vercode">--%>
                             </div>
                         </div>
                     </div>
@@ -100,6 +101,26 @@
         });
 
     });
+
+    function changeImg(_this) {
+        var src = $(_this).attr("src");
+        $(_this).attr("src", chgUrl(src));
+    }
+
+    // 时间戳
+    // 为了使每次生成图片不一致，即不让浏览器读缓存，所以需要加上时间戳
+    function chgUrl(url) {
+        var timestamp = (new Date()).valueOf();
+        var indexOf = url.indexOf("getCode");
+        url = url.substring(0, indexOf+7);
+        if ((url.indexOf("&") >= 0)) {
+            url = url + "×tamp=" + timestamp;
+        } else {
+            url = url + "?timestamp=" + timestamp;
+        }
+        return url;
+    }
+
 </script>
 </body>
 </html>

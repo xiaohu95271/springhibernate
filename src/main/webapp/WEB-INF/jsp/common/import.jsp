@@ -37,8 +37,7 @@
 <script type="text/javascript" src="${path}/layui/lay/modules/layer.js"></script>
 <script>
     layui.use(['layer', 'form'], function(){
-        var layer = layui.layer
-            ,form = layui.form;
+        var layer = layui.layer,form = layui.form;
 
     });
 
@@ -56,7 +55,7 @@
             url: url, //请求url
             success: function (data) { //提交成功的回调函数
                 layer.closeAll('loading');
-                layer.msg('添加成功', {icon: 6,time: 5000});
+                layer.msg('提交成功', {icon: 6,time: 5000});
                 window.parent.layer.closeAll('iframe');
             }
         })
@@ -78,7 +77,7 @@
             success: function (data) { //提交成功的回调函数
                 layer.closeAll('loading');
                 if (data.code == 0){
-                    layer.msg('添加成功', {icon: 6,time: 5000});
+                    layer.msg('提交成功', {icon: 6,time: 5000});
                     window.parent.layer.closeAll('iframe');
                     window.location.href=backUrl;
                 } else {

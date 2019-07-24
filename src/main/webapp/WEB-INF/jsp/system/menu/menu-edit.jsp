@@ -46,6 +46,13 @@
                 </div>
             </div>
             <div class="layui-form-item">
+                <label class="layui-form-label">菜单标识</label>
+                <div class="layui-input-block">
+                    <input type="text" name="identification" placeholder="请输入菜单标识"  value="${menu.identification}"
+    autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
                 <label class="layui-form-label">图标路径</label>
                 <div class="layui-input-block">
                     <input type="text" name="icon" placeholder="请输入图标路径"  value="${menu.icon}"
@@ -115,7 +122,7 @@
 <%--            </div>--%>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" onclick="subData()" lay-submit lay-filter="formDemo">立即提交</button>
+                    <button class="layui-btn"  lay-submit lay-filter="formDemo">立即提交</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
@@ -127,11 +134,11 @@
             form.render();
         });
 
-    //
-    // $("#formData").submit(function () {
-    //    $(this).ajaxSubmit(ajaxFormOption);
-    //     return true;
-    // });
+
+    $("#formData").submit(function () {
+        subData();
+        return true;
+    });
 
     function subData() {
         $.ajax({
